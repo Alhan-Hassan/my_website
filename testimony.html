@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>God's Prayer Squad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600;700&family=Inter:wght@400;700&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- Particles.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <!-- Vanilla Tilt.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+
+    <style>
+        body {
+         font-family: 'Roboto', sans-serif;
+            background: #0a0a23;
+            color: #e0e7ff;
+            line-height: 1.6;
+            margin: 0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            scroll-behavior: smooth;
+            padding-top: 160px;
+
+            
+        }
+
+        #particles-js {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.75;
+            width: 100%;
+            height: 100%;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(52,152,219,0.18), rgba(231,76,60,0.18));
+            z-index: -1;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #2c3e50;
+            color: white;
+            padding: 1rem 1.5rem;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border-bottom:3px solid #00f6ff;
+        }
+
+        .header-logo-text {
+            font-family: 'Open Sans', sans-serif;
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
+            font-weight: 700;
+            color: #3498db;
+            margin: 0;
+            text-align: center;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(52,152,219,0.4);
+        }
+         .header-logo-text:hover{
+            color: #ffb74d ;
+
+         }
+
+        .gps-center {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            animation: spin 12s linear infinite;
+        }
+
+        .gps-center::before,
+        .gps-center::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+        }
+
+        .gps-center::before {
+            border: 4px solid transparent;
+            border-top-color: #3498db;
+            border-right-color: #3498db;
+            animation: spin 8s linear infinite;
+            box-shadow: 0 0 20px rgba(52,152,219,0.7);
+        }
+
+        .gps-center::after {
+            border: 3px dashed #ffb74d;
+            inset: 8px;
+            animation: spin 14s linear infinite reverse;
+        }
+
+        .gps-center span {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 0 10px #3498db, 0 0 20px #3498db;
+            z-index: 2;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        /* Page Title with Typing Animation */
+        .page-title {
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            font-size: 2em;
+            color: #00f6ff;
+            margin-bottom: 10px;
+            animation: typing 3s steps(30, end), blink-caret 0.75s step-end infinite;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 3px solid #00f6ff;
+            width: fit-content;
+        }
+
+        @media (max-width: 320px) {
+            .page-title {
+                font-size: 1.5em;
+            }
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #00f6ff; }
+        }
+
+        /* Styling for the HR tag */
+        .title-separator {
+            width: 50%;
+            height: 2px;
+            background: linear-gradient(90deg, #00f6ff, #ff00cc);
+            border: none;
+            margin: 10px auto 20px;
+            animation: gradient-flow 4s linear infinite;
+        }
+
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+         /* Collapsible Section */
+        details {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            margin-top: 15px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        summary {
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            color: #00f6ff;
+            outline: none;
+            list-style: none;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        summary:before {
+            content: '+ ';
+            margin-right: 8px;
+            font-size: 1.2em;
+            color: #00f6ff;
+            transition: transform 0.3s;
+        }
+
+        details[open] summary:before {
+            content: '- ';
+        }
+
+        details:hover summary {
+            color: #ff00cc;
+            text-decoration: underline;
+        }
+
+        .testimony-content {
+            padding-top: 15px;
+            border-top: 1px dashed rgba(0, 255, 255, 0.3);
+            color: #e0e7ff;
+            font-size: 0.9em;
+        }
+
+        .testimony-content hr {
+            height: 2px;
+            background: linear-gradient(90deg, #00f6ff, #ff00cc);
+            border: none;
+            margin: 8px 0;
+            animation: gradient-flow 4s linear infinite;
+        }
+
+        @media (max-width: 320px) {
+            details {
+                padding: 10px;
+                margin-top: 10px;
+            }
+            summary {
+                font-size: 1em;
+            }
+            .testimony-content {
+                font-size: 0.8em;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+   /* Profile Header */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px dashed rgba(0, 255, 255, 0.3);
+            padding-bottom: 15px;
+        }
+
+        .profile-pic {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+            border: 3px solid #00f6ff;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .profile-pic:hover {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 320px) {
+            .profile-pic {
+                width: 60px;
+                height: 60px;
+                border: 2px solid #00f6ff;
+            }
+        }
+
+        .profile-info h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5em;
+            color: #00f6ff;
+            margin: 0;
+        }
+
+        .profile-info p {
+            margin: 5px 0 0;
+            color: #e0e7ff;
+            font-style: italic;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 320px) {
+            .profile-info h1 {
+                font-size: 1.2em;
+            }
+            .profile-info p {
+                font-size: 0.8em;
+            }
+        }
+
+
+        /* Profile Container with Glassmorphism */
+        .profile-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 800px;
+            width: 100%;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease-in-out;
+            animation: fadeInUp 1s ease-in-out;
+            border-bottom: 3px solid #00f6ff;
+        }
+
+        .profile-container:hover {
+            transform: translateY(-5px);
+        }
+
+        @media (max-width: 320px) {
+            .profile-container {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+        }
+
+
+       
+
+         footer {
+            text-align: center;
+            color: #ffffff;
+            padding: 20px;
+            background: #2c3e50;
+            margin-top: 40px;
+            position: relative;
+            width: 100%;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #e74c3c);
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            animation: gradient-flow 4s linear infinite;
+        }
+
+        footer p {
+            color: #3498db;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div id="particles-js"></div>
+<div class="bg-overlay"></div>
+
+<header>
+     <div class="gps-center">
+        <span>GPS</span>
+    </div>
+    <h1 class="header-logo-text">God's Prayer Squad</h1>
+   
+</header>
+ <h1 class="page-title text-4xl md:text-5xl">Testimonies of Transformation</h1>
+    <hr class="title-separator">
+
+    <div class="profile-container tilt-card">
+        <div class="profile-header">
+            <img src="luce.jpg" alt="Profile of Alex P." class="profile-pic">
+            <div class="profile-info">
+                <h1>Squad: Neema</h1>
+                <p>Joined GPS: October 2024</p>
+            </div>
+        </div>
+        <details>
+            <summary>Read Full Testimony</summary>
+            <div class="testimony-content">
+                Happy GPS Day!<br>
+                <hr>
+                "Through GPS, I have experienced God's presence guiding me along the right paths in life. He has given me the strength to pray and seek Him in spirit and in truth."
+            </div>
+        </details>
+    </div>
+
+    <div class="profile-container tilt-card">
+        <div class="profile-header">
+            <img src="esau.jpg" alt="Profile of Maria S." class="profile-pic">
+            <div class="profile-info">
+                <h1>Squad: Antidius</h1>
+                <p>Joined GPS: March 2025</p>
+            </div>
+        </div>
+        <details>
+            <summary>Read Full Testimony</summary>
+            <div class="testimony-content">
+                Happy GPS Day!<br>
+                <hr>
+                "Shalom! I'm so proud to be a member of the GPS family. Through GPS, I have experienced countless increases in my prayer life, my mindset, my love for fellow human beings, and my love for God. Truly, I am grateful to be part of this family, and I believe I will continue to grow and experience greater things through it."
+            </div>
+        </details>
+    </div>
+
+    <div class="profile-container tilt-card">
+        <div class="profile-header">
+            <img src="noel.jpg" alt="Profile of David R." class="profile-pic">
+            <div class="profile-info">
+                <h1>Squad: Noel</h1>
+                <p>Joined GPS: January 2025</p>
+            </div>
+        </div>
+        <details>
+            <summary>Read Full Testimony</summary>
+            <div class="testimony-content">
+                Happy GPS Day!<br>
+                <hr>
+                "I thank the Almighty God for the great opportunity of meeting the family of GPS. Back in the days, I was lost and forgot God's purpose upon my life. But much thanks to GPS family. Because through it, I have found the right way. I got to know God, and I keep on growing in all counsels to learn more about the things of God. I'm so grateful to GPS family and I'm now a member of God's praying SQUAD."
+            </div>
+        </details>
+    </div>
+
+    <div class="profile-container tilt-card">
+        <div class="profile-header">
+            <img src="happy.jpg" alt="Profile of Jessica B." class="profile-pic">
+            <div class="profile-info">
+                <h1>Squad: Happy</h1>
+                <p>Joined GPS: October 2024</p>
+            </div>
+        </div>
+        <details>
+            <summary>Read Full Testimony</summary>
+            <div class="testimony-content">
+                Happy GPS Day!<br>
+                <hr>
+                "The GPS family has helped me become someone I never was before by building courage within me even to the point of standing confidently in front of people and speaking. Since joining, this family has helped to increase my reward, and my level of faith has grown stronger. Truly, my conduct and way of thinking has been transformed, and I have gained more knowledge and wisdom. I continue to grow and learn more with each passing day."
+            </div>
+        </details>
+    </div>
+
+    <div class="profile-container tilt-card">
+        <div class="profile-header">
+            <img src="luce.jpg" alt="Profile of Robert T." class="profile-pic">
+            <div class="profile-info">
+                <h1>Squad: Dorcus</h1>
+                <p>Joined GPS: October 2023</p>
+            </div>
+        </div>
+        <details>
+            <summary>Read Full Testimony</summary>
+            <div class="testimony-content">
+                Happy GPS Day!<br>
+                <hr>
+                "Since I met the GPS family, many things have happened in my life and are still happening. I learned and I am still learning wisdom found in GPS through its teaching and motivational missions. I have also grown in understanding, Agave love, caring, spiritual dimensions and many other areas."
+            </div>
+        </details>
+    </div>
+
+    <div class="profile-container tilt-card">
+        <div class="profile-header">
+            <img src="einoth.jpg" alt="Profile of Sophia L." class="profile-pic">
+            <div class="profile-info">
+                <h1>Squad: Patricia</h1>
+                <p>Joined GPS: November 2023</p>
+            </div>
+        </div>
+        <details>
+            <summary>Read Full Testimony</summary>
+            <div class="testimony-content">
+                Happy GPS Day!<br>
+                <hr>
+                "Through GPS, God has increased me in many areas of my life, especially in prayer, studying, and understanding His word. I have also discovered my purpose, and in my every day life, I have learned how to live well, communicate, cooperate, and share ideas with different people. I think God for placing me in the GPS family, and I believe He will continue to transform and bless me through this wonderful community."
+            </div>
+        </details>
+    </div>
+
+    <div class="profile-container tilt-card">
+        <div class="profile-header">
+            <img src="einoth.jpg" alt="Profile of Chris M." class="profile-pic">
+            <div class="profile-info">
+                <h1>Squad: Einoth</h1>
+                <p>Joined GPS: May 2024</p>
+            </div>
+        </div>
+        <details>
+            <summary>Read Full Testimony</summary>
+            <div class="testimony-content">
+                Happy GPS Day!<br>
+                <hr>
+                "I thank God for giving me the grace to be part of wonderful GPS family. Through GPS, my life has changed significantly, my understanding of the word of God has deepened, my prayer life has grown stronger, and my perspective has been transformed to be much more positive. I truly love this family, and I'm growing every single day because of it."
+            </div>
+        </details>
+    </div>
+<footer>
+    &copy; 2026 GPS.All right are reserved<br>
+    <p>Designed by Alhan</p>
+</footer>
+
+
+<script>
+// Your particles config
+particlesJS('particles-js', {
+    particles: {
+        number: { value: 70, density: { enable: true, value_area: 800 } },
+        color: { value: ['#3498db', '#e74c3c', '#ffb74d'] },
+        shape: { type: 'circle' },
+        opacity: { value: 0.5, random: true },
+        size: { value: 3, random: true },
+        line_linked: { enable: true, distance: 140, color: '#3498db', opacity: 0.4, width: 1 },
+        move: { enable: true, speed: 1.8, direction: 'none', random: true, straight: false, out_mode: 'out' }
+    },
+    interactivity: {
+        detect_on: 'canvas',
+        events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' } },
+        modes: { repulse: { distance: 90 }, push: { particles_nb: 4 } }
+    },
+    retina_detect: true
+});
+
+
+ document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Particles.js
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: ['#00f6ff', '#ff00cc', '#ffffff'] },
+                    shape: { type: 'circle' },
+                    opacity: { value: 0.5, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: { enable: true, distance: 150, color: '#00f6ff', opacity: 0.4, width: 1 },
+                    move: { enable: true, speed: 2, direction: 'none', random: true, straight: false, out_mode: 'out' }
+                },
+                
+
+            // Initialize Vanilla Tilt.js for 3D tilt effect
+            VanillaTilt.init(document.querySelectorAll('.tilt-card'), {
+                max: 15,
+                speed: 400,
+                glare: true,
+                'max-glare': 0.3
+            });
+        });
+</script>
+</body>
+</html>

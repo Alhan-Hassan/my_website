@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>God's Prayer Squad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600;700&family=Inter:wght@400;700&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            line-height: 1.2;
+            padding-top: 140px;
+            position: relative;
+             font-family: 'Playfair Display', serif;
+            overflow-x: hidden;
+             background: linear-gradient(135deg, #0f0f23, #1a1a2e, #16213e);
+             min-height: 100vh;
+            color: #e0e0e0;
+        }
+
+        #particles-js {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.75;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(52,152,219,0.18), rgba(231,76,60,0.18));
+            z-index: -1;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #2c3e50;
+            color: white;
+            padding: 1rem 1.5rem;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border-bottom: 3px solid #ffb74d;
+        }
+
+        .header-logo-text {
+            font-family: 'Open Sans', sans-serif;
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
+            font-weight: 700;
+            color: #3498db;
+            margin: 0;
+            text-align: center;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(52,152,219,0.4);
+        }
+         .header-logo-text:hover{
+            color: #ffb74d ;
+
+         }
+
+        .gps-center {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            animation: spin 12s linear infinite;
+        }
+
+        .gps-center::before,
+        .gps-center::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+        }
+
+        .gps-center::before {
+            border: 4px solid transparent;
+            border-top-color: #3498db;
+            border-right-color: #3498db;
+            animation: spin 8s linear infinite;
+            box-shadow: 0 0 20px rgba(52,152,219,0.7);
+        }
+
+        .gps-center::after {
+            border: 3px dashed #ffb74d;
+            inset: 8px;
+            animation: spin 14s linear infinite reverse;
+        }
+
+        .gps-center span {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 0 10px #3498db, 0 0 20px #3498db;
+            z-index: 2;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+     /* Associates Layer */
+        #names-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 50;
+            background: #37474f;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.2);
+            padding: 2rem 0;
+            overflow: hidden;
+            margin-top: 140px;
+        }
+        #names-layer h2 {
+            text-align: center;
+            color: #ffb74d;
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            margin-bottom: 0.5rem;
+        }
+        .moving-name {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 700;
+            white-space: nowrap;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+        }
+        /* Name Animation Effects */
+        .fade {
+            animation: moveFade 10s linear infinite;
+        }
+        .bounce {
+            animation: moveBounce 12s linear infinite;
+        }
+        .scale {
+            animation: moveScale 8s linear infinite;
+        }
+        @keyframes moveFade {
+            0% { transform: translateX(100vw); opacity: 0; }
+            20% { opacity: 0.9; }
+            80% { opacity: 0.9; }
+            100% { transform: translateX(-100vw); opacity: 0; }
+        }
+        @keyframes moveBounce {
+            0% { transform: translateX(100vw); }
+            50% { transform: translateX(50vw) translateY(-15px); }
+            100% { transform: translateX(-100vw); }
+        }
+        @keyframes moveScale {
+            0% { transform: translateX(100vw) scale(1); }
+            50% { transform: translateX(0) scale(1.2); }
+            100% { transform: translateX(-100vw) scale(1); }
+        }
+        /* Candle Elements */
+        .candle {
+            position: absolute;
+            width: 15px;
+            height: 30px;
+            background: linear-gradient(to bottom, #ffd700, #ff8c00);
+            border-radius: 8px 8px 0 0;
+            bottom: 0;
+            transform: translateX(-50%);
+            animation: flicker 2s infinite alternate;
+        }
+        @keyframes flicker {
+            0% { box-shadow: 0 0 8px #ffd700; }
+            100% { box-shadow: 0 0 15px #ff8c00; }
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.1);
+        }
+        .leader-card {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.1));
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+        /* Responsive Adjustments */
+        @media (max-width: 640px) {
+            #names-layer h2 {
+                font-size: 1.2rem;
+            }
+            .moving-name {
+                font-size: 0.8rem;
+            }
+            .candle {
+                width: 10px;
+                height: 20px;
+            }
+            h1 {
+                font-size: 2.5rem;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            h3 {
+                font-size: 1.3rem;
+            }
+            h4 {
+                font-size: 1.1rem;
+            }
+            p {
+                font-size: 0.9rem;
+            }
+            .card {
+                padding: 1rem;
+            }
+            .leader-card img {
+                width: 80px;
+                height: 80px;
+            }
+            .card img {
+                width: 60px;
+                height: 60px;
+            }
+        }
+        @media (min-width: 641px) {
+            .moving-name {
+                font-size: 1rem;
+            }
+        }
+
+         
+          /* Background Slideshow */
+        #slideshow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.3;
+
+        }
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+        .slide.active {
+            opacity: 1;
+        }
+         @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+       
+
+         footer {
+            text-align: center;
+            color: #ffffff;
+            padding: 20px;
+            background: #2c3e50;
+            margin-top: 40px;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #e74c3c);
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            animation: gradient-flow 4s linear infinite;
+        }
+
+        footer p {
+            color: #3498db;
+            margin: 5px 0;
+        }
+
+
+        .loreza-section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 2rem auto;
+            background: #2c3e50;
+            color: #f0f4f8;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1.5s ease-in-out;
+            border-bottom: 5px solid #ffb74d;
+        }
+
+        .loreza-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            animation: glowing-border 3s linear infinite;
+        }
+
+        .loreza-section h4 {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 2em;
+            color: #ffb74d;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .loreza-section p {
+            font-size: 1.1em;
+            color: #b0bec5;
+            max-width: 800px;
+            margin: 0 auto 3rem auto;
+        }
+        .journey-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .journey-step {
+            background: #37474f;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+            perspective: 1000px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: slideIn 0.5s ease-out;
+            border-bottom: 2px solid #ffb74d;
+        }
+
+        .journey-step::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid transparent;
+            border-radius: 1rem;
+            animation: glowing-border 2.5s linear infinite;
+        }
+
+        .journey-step:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.7);
+        }
+
+        .journey-step img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 2px solid #3498db;
+        }
+
+        .journey-step h4 {
+            font-family: 'Open Sans', sans-serif;
+            color: #ffb74d;
+            font-size: 0.9em;
+            margin-bottom: 0.5rem;
+            font-style: italic;
+        }
+
+        .journey-step i {
+            color: #e0e0e0;
+            font-size: 1em;
+            margin: 0;
+        }
+        .content-box{
+             padding: 60px 20px;
+            max-width: 1200px;
+            background: #2c3e50;
+            color: #f0f4f8;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+            margin-top: 10em;
+            border: 1px solid darkgreen;
+            display: flex;
+            justify-content: center;
+        }
+        .message{
+            background: #37474f;
+            padding: 2rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+            perspective: 1000px;
+            border-radius: 1rem;
+            border-bottom: 2px solid darkgreen;-
+
+
+            
+
+        }
+        .message p{
+            text-align: center;
+            font-size: 1.3em;
+        }
+    </style>
+</head>
+<body>
+
+      <!-- Background Slideshow -->
+    <div id="slideshow">
+        <img src="https://images.unsplash.com/photo-1516331138075-f3f121c92b0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1280&q=80" alt="Memorial 1" class="slide">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1280&q=80" alt="Memorial 2" class="slide">
+        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1280&q=80" alt="Memorial 3" class="slide">
+    </div>
+
+<div id="particles-js"></div>
+<div class="bg-overlay"></div>
+
+<header>
+     <div class="gps-center">
+        <span>GPS</span>
+    </div>
+    <h1 class="header-logo-text">God's Prayer Squad</h1>
+   
+</header>
+
+
+    <!-- Associates Layer -->
+    <div id="names-layer">
+        <h2>Gps Associates</h2>
+    </div>
+
+    <!-- Candles -->
+    <div class="candle absolute bottom-0 left-1/2"></div>
+    <div class="candle absolute bottom-0 right-1/4" style="animation-delay: 0.5s;"></div>
+    <div class="content-box">
+        <div class="message">
+            <p >
+                God's Prayer Squad (GPS) honors the legacies of our cherished members and visionary leaders who have passed into eternal rest. Their dedication, wisdom, and passion continue to inspire us. This memorial page celebrates their lives and the indelible marks they left on our community.
+            </p>
+        </div>
+    </div>
+
+
+    <!-- Introduction -->
+    <div class="loreza-section">
+        <h2 style="text-align: center;font-size: 2em; color: #ffb74d;">Meet Some of Our Associates</h2>
+        <div class="journey-grid">
+            <div class="journey-step">
+                <img src="C:\Users\Kitomar1\Downloads\_V1A1875 (1).jpg" alt="Ascent Image">
+            <h4>Squad: Luce</h4>
+            <i>Fomer Gps Secretary Coordinator</i>
+             <hr style="width: 60px;">
+             <i style="color:#ffb74d;">Graduated 2026 </i>
+            
+        </div>
+
+             <div class="journey-step">
+                <img src="C:\Users\Kitomar1\Downloads\_V1A1875 (1).jpg" alt="Ascent Image">
+            <h4>Squad: Lucas</h4>
+           <i>Former Gps Coordinator </i><br>
+            <hr style="width: 60px;">
+           <i style="color:#ffb74d;">Graduated 2026</i>
+        </div>
+             <div class="journey-step">
+                <img src="C:\Users\Kitomar1\Downloads\_V1A1875 (1).jpg" alt="Ascent Image">
+            <h4>Squad: Benjamin</h4>
+           <i>Fomer Gps Media coordinator</i><br>
+            <hr style="width: 60px;">
+           <i style="color:#ffb74d;">Graduated 2024</i>
+        </div>
+             <div class="journey-step">
+                <img src="C:\Users\Kitomar1\Downloads\_V1A1875 (1).jpg" alt="Ascent Image">
+            <h4>Squad: marry</h4>
+           <i>Fomer Gps Financial Coordinator</i><br>
+            <hr style="width: 60px;">
+           <i style="color:#ffb74d;">Graduated 2025</i>
+        </div>
+             <div class="journey-step">
+                <img src="C:\Users\Kitomar1\Downloads\_V1A1875 (1).jpg" alt="Ascent Image">
+            <h4>Squad: Niclous</h4>
+           <i>Fomer Gps Media coordinator</i><br>
+            <hr style="width: 60px;">
+           <i style="color:#ffb74d;">Graduated 2024</i>
+
+        </div>
+             <div class="journey-step">
+                <img src="C:\Users\Kitomar1\Downloads\_V1A1875 (1).jpg" alt="Ascent Image">
+            <h4>Squad: hilam</h4>
+            <i>Fomer Gps Coordinator</i><br>
+            <hr style="width: 60px;">
+            <i style="color:#ffb74d;">Graduated 2022</i>
+        </div>
+             <div class="journey-step">
+                <img src="C:\Users\Kitomar1\Downloads\_V1A1875 (1).jpg" alt="Ascent Image">
+            <h4>Squad: happy</h4>
+           <i>Fomer Gps Women hostel Coordinator</i><br>
+            <hr style="width: 60px;">
+           <i style="color:#ffb74d;">Graduted 2026</i>
+        </div>
+         <div class="journey-step">
+                <img src="C:\Users\Kitomar1\Downloads\_V1A1875 (1).jpg" alt="Ascent Image">
+            <h4>Squad: Einoth</h4>
+           <i>Fomer Gps Financial Coordinator</i><br>
+            <hr style="width: 60px;">
+           <i style="color:#ffb74d;">Graduted 2026</i>
+        </div>
+         <div class="journey-step">
+                <img src="C:\Users\Kitomar1\Downloads\_V1A1875 (1).jpg" alt="Ascent Image">
+            <h4>Squad: Elia</h4>
+           <i>Fomer Gps Media Coordinator</i><br>
+            <hr style="width: 60px;">
+           <i style="color:#ffb74d;">Graduted 2026</i>
+        </div>
+         <div class="journey-step">
+                <img src="C:\Users\Kitomar1\Downloads\_V1A1875 (1).jpg" alt="Ascent Image">
+            <h4>Squad: Essau</h4>
+           <i>Fomer Gps Inyara Coordinator</i><br>
+            <hr style="width: 60px;">
+           <i style="color:#ffb74d;">Graduted 2026</i>
+        </div>
+         <div class="journey-step">
+                <img src="C:\Users\Kitomar1\Downloads\_V1A1875 (1).jpg" alt="Ascent Image">
+            <h4>Squad: emmanuel</h4>
+           <i>Our Gps Member</i><br>
+            <hr style="width: 60px;">
+           <i style="color:#ffb74d; ">Graduted 2026</i>
+        </div>
+         <div class="journey-step">
+                <img src="C:\Users\Kitomar1\Downloads\_V1A1875 (1).jpg" alt="Ascent Image">
+            <h4>Squad: Ezekiel</h4>
+           <i>Our Gps Member </i><br>
+            <hr style="width: 60px;">
+           <i style="color:#ffb74d;">Graduted 2026</i>
+        </div>
+         <div class="journey-step">
+                <img src="C:\Users\Kitomar1\Downloads\_V1A1875 (1).jpg" alt="Ascent Image">
+            <h4>Squad: Joshua</h4>
+           <i>Our Gps Member</i><br>
+            <hr style="width: 60px;">
+           <i style="color:#ffb74d;">Graduted 2026</i>
+        </div>
+         <div class="journey-step">
+                <img src="C:\Users\Kitomar1\Downloads\_V1A1875 (1).jpg" alt="Ascent Image">
+            <h4>Squad: John</h4>
+           <i>Fomer Gps Coca Coordinator</i><br>
+            <hr style="width: 60px;">
+           <i style="color: #ffb74d;">Graduted 2026</i>
+        </div>
+
+
+    </div>
+</div>
+
+            <p style="text-align: center;font-size: 1.2em; color: #3498db;">And many more we still remembered your contribution.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2026 GPS.All rights are reserved<br>
+       <p> Desined by Alhan</p>
+    </footer>
+
+
+<script>
+// Your particles config
+particlesJS('particles-js', {
+    particles: {
+        number: { value: 70, density: { enable: true, value_area: 800 } },
+        color: { value: ['#3498db', '#e74c3c', '#ffb74d'] },
+        shape: { type: 'circle' },
+        opacity: { value: 0.5, random: true },
+        size: { value: 3, random: true },
+        line_linked: { enable: true, distance: 140, color: '#3498db', opacity: 0.4, width: 1 },
+        move: { enable: true, speed: 1.8, direction: 'none', random: true, straight: false, out_mode: 'out' }
+    },
+    interactivity: {
+        detect_on: 'canvas',
+        events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' } },
+        modes: { repulse: { distance: 90 }, push: { particles_nb: 4 } }
+    },
+    retina_detect: true
+});
+
+  // Moving Names Logic
+        const names = [
+            'Squad: Lucas', 'Squad: Niclous', 'Squad: Benjamini', 'Squad: Marry',
+            'Squad: Hilam', 'Squad: Happy', 'Squad: Lucas','Squad: Kiribuche','Squad: Habakuki','Squad: Einoth', 'Squad: John','Squad: Ezekiel','Squad: Emmanuel','Squad: Elia','Squad: Essau'
+        ];
+        const animations = ['fade', 'bounce', 'scale'];
+        const namesLayer = document.getElementById('names-layer');
+        
+        function createMovingName(name) {
+            const span = document.createElement('span');
+            span.textContent = name;
+            span.className = 'moving-name';
+            const animation = animations[Math.floor(Math.random() * animations.length)];
+            span.classList.add(animation);
+            span.style.top = `${Math.random() * 50 + 40}px`; // Position below title
+            namesLayer.appendChild(span);
+            setTimeout(() => span.remove(), 12000);
+        }
+
+        function generateNames() {
+            const isMobile = window.innerWidth <= 640;
+            const maxNames = isMobile ? 2 : 4;
+            let activeNames = namesLayer.querySelectorAll('.moving-name').length;
+            if (activeNames < maxNames) {
+                names.forEach(name => {
+                    if (Math.random() < (isMobile ? 0.1 : 0.3)) {
+                        createMovingName(name);
+                    }
+                });
+            }
+        }
+        generateNames();
+        setInterval(generateNames, 2000);
+
+        // Card Fade-In Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        document.querySelectorAll('.card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        // Slideshow Logic
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+        function showNextSlide() {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide].classList.add('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+        }
+        showNextSlide();
+        setInterval(showNextSlide, 5000);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>God's Prayer Squad</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        :root {
+            --navy: #0f172a;
+            --sky: #38bdf8;
+            --rose: #f43f5e;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: #f8fafc; 
+            color: #1e293b;
+            padding-top: 160px;
+        }
+
+      
+        #particles-js {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.75;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(52,152,219,0.18), rgba(231,76,60,0.18));
+            z-index: -1;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #2c3e50;
+            color: white;
+            padding: 1rem 1.5rem;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border-bottom: 2px solid  #3498db;
+        }
+
+        .header-logo-text {
+            font-family: 'Open Sans', sans-serif;
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
+            font-weight: 700;
+            color: #3498db;
+            margin: 0;
+            text-align: center;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(52,152,219,0.4);
+        }
+         .header-logo-text:hover{
+            color: #ffb74d ;
+
+         }
+
+        .gps-center {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            animation: spin 12s linear infinite;
+        }
+
+        .gps-center::before,
+        .gps-center::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+        }
+
+        .gps-center::before {
+            border: 4px solid transparent;
+            border-top-color: #3498db;
+            border-right-color: #3498db;
+            animation: spin 8s linear infinite;
+            box-shadow: 0 0 20px rgba(52,152,219,0.7);
+        }
+
+        .gps-center::after {
+            border: 3px dashed #ffb74d;
+            inset: 8px;
+            animation: spin 14s linear infinite reverse;
+        }
+
+        .gps-center span {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 0 10px #3498db, 0 0 20px #3498db;
+            z-index: 2;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+
+        /* Typing Verse Card */
+        .verse-card {
+            background: white; padding: 2.5rem; border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border-left: 8px solid var(--rose);
+            min-height: 180px;
+        }
+        .verse-font { font-family: 'Playfair Display', serif; font-size: 1.6rem; line-height: 1.5; color: #1e293b; }
+        
+        /* Interactive Cursor */
+        .cursor { display: inline-block; width: 3px; background-color: var(--sky); animation: blink 0.8s infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Search Section */
+        .search-area {
+            background: var(--navy); border-radius: 24px;
+            padding: 2.5rem; color: white;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        /* Navigable Version Cards */
+        .lib-card {
+            background: white; border-radius: 16px; padding: 20px;
+            border: 1px solid #e2e8f0; transition: all 0.3s ease;
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .lib-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+            border-color: var(--sky);
+        }
+
+        .read-btn {
+            display: block; width: 100%; text-align: center;
+            padding: 12px; border-radius: 10px; font-weight: 700;
+            margin-top: 15px; transition: 0.2s;
+        }
+
+        .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-top: 3px solid white;
+            border-radius: 50%; width: 20px; height: 20px;
+            animation: spin 1s linear infinite; display: none;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        footer { background: var(--navy); color: #94a3b8; padding: 3rem 1rem; text-align: center; margin-top: 5rem; }
+        footer p{
+            color: #3498db ;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+     <div class="gps-center">
+        <span>GPS</span>
+    </div>
+    <h1 class="header-logo-text">God's Prayer Squad</h1>
+   
+</header>
+
+<main class="container mx-auto px-4 max-w-5xl space-y-12 mt-8">
+
+    <section>
+        <div class="verse-card">
+            <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Aya ya Leo / Daily Bread</h2>
+            <div class="verse-font">
+                <span id="typed-verse"></span><span id="cursor" class="cursor">&nbsp;</span>
+            </div>
+            <p id="verse-ref" class="mt-4 text-rose-500 font-bold text-lg opacity-0 transition-opacity duration-1000"></p>
+        </div>
+    </section>
+
+    <section class="search-area">
+        <h2 class="text-2xl font-bold mb-6 text-center">Tafuta Aya Moja kwa Moja</h2>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <input type="text" id="searchInput" placeholder="Mfano: Yohana 3:16" 
+                   class="md:col-span-2 p-4 rounded-xl text-slate-900 outline-none focus:ring-4 focus:ring-sky-500/50">
+            
+            <select id="langSelect" class="p-4 rounded-xl text-slate-900 font-bold bg-slate-50">
+                <option value="almeida">Kiswahili (SUV)</option>
+                <option value="kjv">English (KJV)</option>
+                <option value="bbe">English (BBE)</option>
+            </select>
+
+            <button onclick="handleSearch()" id="searchBtn" class="bg-sky-500 hover:bg-sky-600 p-4 rounded-xl font-bold text-white transition-all flex items-center justify-center gap-2">
+                <span>TAFUTA</span>
+                <div id="spinner" class="loading-spinner"></div>
+            </button>
+        </div>
+
+        <div id="resultBox" class="mt-8 p-6 bg-white/5 rounded-xl hidden border border-white/10">
+            <h3 id="resRef" class="text-xl font-bold text-sky-400 mb-2"></h3>
+            <p id="resText" class="text-lg italic text-slate-100 leading-relaxed"></p>
+        </div>
+        <p id="errorMsg" class="mt-4 text-rose-400 hidden text-center font-bold"></p>
+    </section>
+
+    <section>
+        <div class="flex items-center gap-4 mb-8">
+            <h2 class="text-2xl font-bold text-slate-800">Maktaba ya Biblia</h2>
+            <div class="h-[2px] bg-slate-200 flex-grow"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <div class="lib-card">
+                <div>
+                    <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded">SWAHILI</span>
+                    <h3 class="text-xl font-bold mt-3">Union Version (SUV)</h3>
+                    <p class="text-sm text-slate-500 mt-2">Toleo rasmi na maarufu zaidi linalotumika makanisani Tanzania.</p>
+                </div>
+                <a href="https://www.bible.com/bible/1824/GEN.1.SUV" target="_blank" class="read-btn bg-emerald-600 text-white hover:bg-emerald-700">Soma Sasa</a>
+            </div>
+
+            <div class="lib-card">
+                <div>
+                    <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded">SWAHILI</span>
+                    <h3 class="text-xl font-bold mt-3">Biblia ya Neno (NEN)</h3>
+                    <p class="text-sm text-slate-500 mt-2">Tafsiri ya kisasa kwa lugha nyepesi inayoeleweka kwa urahisi.</p>
+                </div>
+                <a href="https://www.bible.com/bible/1825/GEN.1.NEN" target="_blank" class="read-btn bg-emerald-600 text-white hover:bg-emerald-700">Soma Sasa</a>
+            </div>
+
+            <div class="lib-card">
+                <div>
+                    <span class="text-xs font-bold text-sky-600 bg-sky-50 px-2 py-1 rounded">ENGLISH</span>
+                    <h3 class="text-xl font-bold mt-3">King James (KJV)</h3>
+                    <p class="text-sm text-slate-500 mt-2">The authorized 1611 classic. Famous for its poetic language.</p>
+                </div>
+                <a href="https://www.bible.com/bible/1/GEN.1.KJV" target="_blank" class="read-btn bg-sky-600 text-white hover:bg-sky-700">Read Now</a>
+            </div>
+
+            <div class="lib-card">
+                <div>
+                    <span class="text-xs font-bold text-sky-600 bg-sky-50 px-2 py-1 rounded">ENGLISH</span>
+                    <h3 class="text-xl font-bold mt-3">New Int. (NIV)</h3>
+                    <p class="text-sm text-slate-500 mt-2">A highly balanced translation for study and clarity.</p>
+                </div>
+                <a href="https://www.bible.com/bible/111/GEN.1.NIV" target="_blank" class="read-btn bg-sky-600 text-white hover:bg-sky-700">Read Now</a>
+            </div>
+
+            <div class="lib-card">
+                <div>
+                    <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded">HISTORY</span>
+                    <h3 class="text-xl font-bold mt-3">Toleo la Steere (1883)</h3>
+                    <p class="text-sm text-slate-500 mt-2">Tafsiri ya kwanza ya kizamani kule Zanzibar. Nakala ya kihistoria.</p>
+                </div>
+                <a href="https://archive.org/details/swahilibible00stee" target="_blank" class="read-btn bg-slate-700 text-white hover:bg-slate-800">Angalia Nakala</a>
+            </div>
+
+            <div class="lib-card">
+                <div>
+                    <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded">HISTORY</span>
+                    <h3 class="text-xl font-bold mt-3">Tyndale Bible (1526)</h3>
+                    <p class="text-sm text-slate-500 mt-2">The first English Bible translated from Greek. Very rare.</p>
+                </div>
+                <a href="https://www.obereggenberg.com/tyndale/Mat/1" target="_blank" class="read-btn bg-slate-700 text-white hover:bg-slate-800">View Script</a>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p class="font-bold text-white mb-2">GOD'S PRAYER SQUAD</p>
+    <p class="text-xs">Mbeya, Tanzania • Huduma kwa Njia ya Mtandao<br>
+        Mbeya University of Science and Technology<br>
+        MUST Main Campus
+    </p>
+    <div class="mt-6 pt-6 border-t border-slate-800 text-[15px] ">
+        &copy; 2026 Designed by Alhan
+    </div>
+</footer>
+
+<script>
+    // 1. Swahili to English Translator (Crucial for Search API)
+    const swahiliToEnglish = {
+        "mwanzo": "genesis", "kutoka": "exodus", "walawi": "leviticus", "hesabu": "numbers",
+        "kumbukumbu": "deuteronomy", "yoshua": "joshua", "waamuzi": "judges", "ruthu": "ruth",
+        "samweli": "samuel", "wafalme": "kings", "nyakati": "chronicles", "ezra": "ezra",
+        "nehemia": "nehemiah", "esta": "esther", "ayubu": "job", "zaburi": "psalms", "methali": "proverbs",
+        "muhubiri": "ecclesiastes", "wimbo": "song of solomon", "isaya": "isaiah", "yeremia": "jeremiah",
+        "maombolezo": "lamentations", "ezekieli": "ezekiel", "danieli": "daniel", "osea": "hosea",
+        "yoeli": "joel", "amosi": "amos", "obadia": "obadiah", "yona": "jonah", "mika": "micah",
+        "nahumu": "nahum", "habakuki": "habakkuk", "sefania": "zephaniah", "hagai": "haggai",
+        "zakaria": "zechariah", "malaki": "malachi", "mathayo": "matthew", "marko": "mark",
+        "luka": "luke", "yohana": "john", "matendo": "acts", "warumi": "romans", "wakorintho": "corinthians",
+        "wagalatia": "galatians", "waefeso": "ephesians", "wafilipi": "philippians", "wakolosai": "colossians",
+        "wathesalonike": "thessalonians", "timotheo": "timothy", "tito": "titus", "filemoni": "philemon",
+        "waebrania": "hebrews", "yakobo": "james", "petro": "peter", "yuda": "jude", "ufunuo": "revelation"
+    };
+
+    // 2. Typing Effect Logic
+    const dailyVerses = [
+        { q: "Msiwe na wasiwasi juu ya kitu chochote, bali katika kila jambo mshukuruni Mungu.", r: "Wafilipi 4:6" },
+        { q: "Bwana ndiye mchungaji wangu, sitapungukiwa na kitu.", r: "Zaburi 23:1" },
+        { q: "Nayaweza mambo yote katika yeye anitiaye nguvu.", r: "Wafilipi 4:13" },
+        { q: "Mungu ni pendo, naye akaaye katika pendo, hukaa ndani ya Mungu.", r: "1 Yohana 4:16" }
+    ];
+
+    function runTypingEffect() {
+        const verse = dailyVerses[new Date().getDate() % dailyVerses.length];
+        const textContainer = document.getElementById("typed-verse");
+        const refContainer = document.getElementById("verse-ref");
+        let i = 0;
+        
+        function type() {
+            if (i < verse.q.length) {
+                textContainer.innerHTML += verse.q.charAt(i);
+                i++;
+                setTimeout(type, 60);
+            } else {
+                refContainer.textContent = verse.r;
+                refContainer.classList.remove("opacity-0");
+                document.getElementById("cursor").style.display = "none";
+            }
+        }
+        type();
+    }
+
+    // 3. Advanced Search Function
+    async function handleSearch() {
+        let query = document.getElementById('searchInput').value.toLowerCase().trim();
+        const lang = document.getElementById('langSelect').value;
+        const spinner = document.getElementById('spinner');
+        const resultBox = document.getElementById('resultBox');
+        const errorMsg = document.getElementById('errorMsg');
+
+        if (!query) return;
+
+        // Reset UI
+        errorMsg.classList.add('hidden');
+        resultBox.classList.add('hidden');
+        spinner.style.display = "block";
+
+        // Map Swahili book name to English for API
+        for (let sw in swahiliToEnglish) {
+            if (query.includes(sw)) {
+                query = query.replace(sw, swahiliToEnglish[sw]);
+                break;
+            }
+        }
+
+        try {
+            const response = await fetch(`https://bible-api.com/${query}?translation=${lang}`);
+            const data = await response.json();
+
+            if (data.text) {
+                document.getElementById('resRef').textContent = data.reference;
+                document.getElementById('resText').textContent = data.text.replace(/\n/g, ' ');
+                resultBox.classList.remove('hidden');
+            } else {
+                throw new Error();
+            }
+        } catch (err) {
+            errorMsg.textContent = "Haikupatikana. Hakikisha umeandika Aya kwa usahihi (Mfn: Yohana 3:16)";
+            errorMsg.classList.remove('hidden');
+        } finally {
+            spinner.style.display = "none";
+        }
+    }
+
+    window.onload = runTypingEffect;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>History of GPS - God's Prayer Squad</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Open Sans', Arial, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #e0f7fa;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(44, 62, 80, 0.92);
+      backdrop-filter: blur(10px);
+      color: white;
+      padding: 1.2rem 1.5rem;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    }
+
+    .gps-center {
+      width: 90px;
+      height: 90px;
+      position: relative;
+      animation: spin 14s linear infinite;
+    }
+    .gps-center::before,
+    .gps-center::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+    }
+    .gps-center::before {
+      border: 5px solid transparent;
+      border-top-color: #3498db;
+      border-right-color: #3498db;
+      animation: spin 9s linear infinite;
+      box-shadow: 0 0 25px rgba(52,152,219,0.8);
+    }
+    .gps-center::after {
+      border: 4px dashed #ffb74d;
+      inset: 10px;
+      animation: spin 16s linear infinite reverse;
+    }
+    .gps-center span {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 0 12px #3498db, 0 0 25px #3498db;
+    }
+
+    .header-logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 6vw, 3.2rem);
+      font-weight: 700;
+      color: #3498db;
+      text-shadow: 0 0 10px rgba(52,152,219,0.5);
+      letter-spacing: 1.5px;
+      transition: all 0.4s;
+    }
+    .header-logo-text:hover {
+      color: #ffb74d;
+      transform: scale(1.05);
+    }
+
+    .main-content {
+      padding: 180px 20px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 8vw, 4.5rem);
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #ffb74d;
+      text-shadow: 0 0 15px rgba(255,183,77,0.4);
+    }
+
+    .history-section {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(52,152,219,0.3);
+      border-radius: 20px;
+      padding: 40px;
+      margin: 40px 0;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      transition: all 0.4s;
+    }
+    .history-section:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(52,152,219,0.5);
+    }
+
+    /* Co-Founders Grid */
+    .founders-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin: 50px 0;
+    }
+
+    .founder-card {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(52,152,219,0.3);
+      border-radius: 16px;
+      overflow: hidden;
+      text-align: center;
+      transition: all 0.4s;
+      backdrop-filter: blur(8px);
+    }
+    .founder-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 15px 35px rgba(52,152,219,0.4);
+      border-color: #ffb74d;
+    }
+
+    .founder-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-bottom: 3px solid #3498db;
+    }
+
+    .founder-info {
+      padding: 20px;
+    }
+    .founder-name {
+      font-size: 1.4rem;
+      color: #ffb74d;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .founder-role {
+      font-size: 1.1rem;
+      color: #3498db;
+      margin-bottom: 12px;
+      font-style: italic;
+    }
+    .founder-bio {
+      font-size: 1rem;
+      color: #b0e0ff;
+      line-height: 1.5;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      background: rgba(44,62,80,0.9);
+      border-top: 4px solid #3498db;
+      color: #b0e0ff;
+    }
+    footer p { margin: 10px 0; font-size: 1.1rem; }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @-webkit-keyframes spin { from { -webkit-transform: rotate(0deg); } to { -webkit-transform: rotate(360deg); } }
+
+    @media (max-width: 768px) {
+      .main-content { padding-top: 160px; }
+      .history-section { padding: 25px; }
+      h1 { font-size: 3rem; }
+      .founders-grid { grid-template-columns: 1fr; }
+      .founder-image { height: 180px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="gps-center">
+      <span>GPS</span>
+    </div>
+    <h1 class="header-logo-text">God's Prayer Squad</h1>
+  </header>
+
+  <div class="main-content">
+    <h1>Our History</h1>
+
+    <div class="history-section">
+      <p>God's Prayer Squad (GPS) is a dynamic <span class="highlight">family of God's children</span> united by a divine calling to stand in the gap through fervent, united prayer. Born out of a deep passion for intercession, GPS began as a small group of believers committed to praying for the church, our communities, our nation Tanzania, and the world at large.</p>
+
+      <p>Rooted in the belief that <span class="highlight">prayer changes things</span>, the community grew from humble beginnings into a vibrant movement. Members gather regularly for intense prayer sessions, spiritual warfare, worship, and encouragement, always seeking God's face for guidance, revival, and breakthroughs. GPS emphasizes personal spiritual growth, unity among believers, and service to society through prayer-backed action.</p>
+
+      <p>From its early days in Tanzania (with strong presence in areas like Mbeya and Dar es Salaam), GPS has impacted countless lives through seasons of focused themes, powerful teachings, and communal support.</p>
+
+      <p>Today, GPS continues to evolve while staying true to its core: <span class="highlight">To pray for the will of God to be done on earth as it is in heaven</span>. We invite all who feel the call to join this squad and become part of a movement that believes prayer is the key to transformation.</p>
+
+      <p>Explore our <a href="index.html#timeline" style="color:#3498db; text-decoration:underline;">Season Timeline</a> to see how God has led us through the years!</p>
+    </div>
+
+    <!-- Co-Founders Section -->
+    <h1>Our Co-Founders</h1>
+    <div class="founders-grid">
+      <!-- Founder 1 -->
+      <div class="founder-card">
+        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=400" alt="Pastor John Mushi" class="founder-image">
+        <div class="founder-info">
+          <h3 class="founder-name">Lucas Lenjani</h3>
+          <p class="founder-role">Lead Intercessor & Founder</p>
+          <p class="founder-bio">Called to prayer ministry at age 25, Pastor John received a vision to unite believers in Tanzania for national revival. He pioneered GPS in 2018 with a focus on spiritual warfare and community outreach.</p>
+        </div>
+      </div>
+
+      <!-- Founder 2 -->
+      <div class="founder-card">
+        <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&q=80&w=400" alt="Evangelist Aisha" class="founder-image">
+        <div class="founder-info">
+          <h3 class="founder-name">Niclous</h3>
+          <p class="founder-role">Prayer Mobilizer & Co-Founder</p>
+          <p class="founder-bio">A powerful intercessor from Dar es Salaam, Aisha brought organizational structure and women's ministry focus to GPS. She leads annual prayer retreats and youth programs.</p>
+        </div>
+      </div>
+
+      <!-- Founder 3 -->
+      <div class="founder-card">
+        <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&q=80&w=400" alt="Elder Thomas" class="founder-image">
+        <div class="founder-info">
+          <h3 class="founder-name">Essau</h3>
+          <p class="founder-role">Teaching Pastor & Co-Founder</p>
+          <p class="founder-bio">With over 30 years in ministry, Elder Thomas provides biblical teaching on prayer and spiritual growth. He oversees the GPS Bible study network across Tanzania.</p>
+        </div>
+      </div>
+
+      <!-- Founder 4 -->
+      <div class="founder-card">
+        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=400" alt="Sister Grace" class="founder-image">
+        <div class="founder-info">
+          <h3 class="founder-name">John</h3>
+          <p class="founder-role">Worship Leader & Co-Founder</p>
+          <p class="founder-bio">A gifted worshipper and songwriter, Grace creates the spiritual atmosphere for GPS prayer meetings. Her music has touched thousands and strengthened faith.</p>
+        </div>
+      </div>
+
+      <!-- Founder 5 -->
+      <div class="founder-card">
+        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=400" alt="Brother Samuel" class="founder-image">
+        <div class="founder-info">
+          <h3 class="founder-name">Kiribuche</h3>
+          <p class="founder-role">Youth Coordinator & Co-Founder</p>
+          <p class="founder-bio">The youngest co-founder, Samuel leads GPS Youth Squad with passion for the next generation. He uses social media to spread prayer messages across East Africa.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 God's Prayer Squad. All rights reserved.</p>
+    <p>Designed with love by Alhan</p>
+  </footer>
+
+</body>
+</html>

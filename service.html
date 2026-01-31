@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>God's Prayer Squad</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600;700&family=Inter:wght@400;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #6d28d9;
+            --primary-dark: #5b21b6;
+            --accent: #3498db;
+            --gold: #ffb74d;
+            --light: #f3e8ff;
+            --dark: #0f001a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            line-height: 1.6;
+            padding-top: 170px;
+            position: relative;
+            font-family: system-ui, -apple-system, sans-serif;
+            background: var(--dark);
+            color: white;
+            min-height: 100dvh;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #particles-js {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.75;
+        }
+
+        /* ── Background Slider ── */
+        .slider {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.8s ease;
+        }
+
+        .slide.active {
+            opacity: 0.35;
+        }
+
+        .overlay {
+            position: relative;
+            z-index: 5;
+            min-height: 100dvh;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.85) 65%, rgba(0,0,0,0.92) 100%);
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(52,152,219,0.18), rgba(231,76,60,0.18));
+            z-index: -1;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #2c3e50;
+            color: white;
+            padding: 1rem 1.5rem;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border-bottom: 2px solid white;
+        }
+
+        .header-logo-text {
+            font-family: 'Open Sans', sans-serif;
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
+            font-weight: 700;
+            color: var(--accent);
+            margin: 0;
+            text-align: center;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(52,152,219,0.4);
+            transition: color 0.3s ease;
+        }
+
+        .header-logo-text:hover {
+            color: var(--gold);
+        }
+
+        .gps-center {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            animation: spin 12s linear infinite;
+        }
+
+        .gps-center::before,
+        .gps-center::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+        }
+
+        .gps-center::before {
+            border: 4px solid transparent;
+            border-top-color: var(--accent);
+            border-right-color: var(--accent);
+            animation: spin 8s linear infinite;
+            box-shadow: 0 0 20px rgba(52,152,219,0.7);
+        }
+
+        .gps-center::after {
+            border: 3px dashed var(--gold);
+            inset: 8px;
+            animation: spin 14s linear infinite reverse;
+        }
+
+        .gps-center span {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
+            z-index: 2;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+
+        .verse {
+            text-align: center;
+            font-style: italic;
+            color: #c4b5fd;
+            font-size: clamp(0.95rem, 3.5vw, 1.05rem);
+            margin: 1.2rem 0 2rem;
+            padding: 0 1rem;
+            line-height: 1.4;
+        }
+
+        /* ── Service Cards with Glowing Icons ── */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            width: 100%;
+        }
+
+        .service-card {
+            background: rgba(255,255,255,0.07);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(109,40,217,0.25);
+            border-radius: 16px;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            transition: all 0.35s ease;
+            border-bottom: 5px solid rgba(255,255,255,0.3);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            background: rgba(109,40,217,0.18);
+            border-color: var(--primary);
+            box-shadow: 0 16px 32px rgba(109,40,217,0.3);
+            border-bottom-color: white;
+        }
+
+        /* Icon Styling */
+        .service-card i {
+            font-size: 3rem;
+            margin-bottom: 1.2rem;
+            color: var(--accent);
+            text-shadow: 0 0 15px rgba(52,152,219,0.6);
+            display: block;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: white;
+            font-weight: 700;
+        }
+
+        .service-card .time {
+            color: #d1d5db;
+            font-size: 0.95rem;
+            margin-top: 0.4rem;
+            font-weight: 500;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.2rem;
+            margin: 3rem 1rem;
+            padding: 0 0.5rem;
+        }
+
+        .action-btn {
+            flex: 1 1 45%;
+            max-width: 220px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 1.3rem 1.2rem;
+            background: rgba(109,40,217,0.22);
+            border: 1.5px solid var(--primary);
+            border-radius: 14px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: var(--primary);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 28px rgba(109,40,217,0.4);
+        }
+
+        .action-btn i {
+            font-size: 2.2rem;
+            margin-bottom: 0.2rem;
+        }
+
+        footer {
+            text-align: center;
+            color: #ffffff;
+            padding: 30px 20px;
+            background: #2c3e50;
+            margin-top: 50px;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), #e74c3c);
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            animation: gradient-flow 4s linear infinite;
+        }
+
+        footer p {
+            color: var(--accent);
+            margin-top: 10px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<div id="particles-js"></div>
+<div class="bg-overlay"></div>
+
+<div class="slider">
+    <div class="slide active" style="background-image: url('images/church-1.jpg')"></div>
+    <div class="slide" style="background-image: url('images/prayer-2.jpg')"></div>
+    <div class="slide" style="background-image: url('images/worship-3.jpg')"></div>
+    <div class="slide" style="background-image: url('images/cross-sunset.jpg')"></div>
+</div>
+
+<div class="overlay">
+    <header>
+         <div class="gps-center">
+            <span>GPS</span>
+        </div>
+        <h1 class="header-logo-text">God's Prayer Squad</h1>
+    </header>
+
+    <main>
+        <div class="verse">
+          "Let us not give up meeting together... but let us encourage one another..."<br>
+          — Hebrews 10:24-25
+        </div>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fa-solid fa-book-bible"></i>
+                <h3>Tuesday Service</h3>
+                <div class="time">21:00 – 22:30 EAT</div>
+                <div style="margin-top:0.7rem; opacity:0.85; font-size: 0.9rem;">Word Service</div>
+            </div>
+
+            <div class="service-card">
+                <i class="fa-solid fa-person-praying"></i>
+                <h3>Thursday Service</h3>
+                <div class="time">21:00 – 22:30 EAT</div>
+                <div style="margin-top:0.7rem; opacity:0.85; font-size: 0.9rem;">Night Prayer</div>
+            </div>
+
+            <div class="service-card">
+                <i class="fa-solid fa-cloud-sun"></i>
+                <h3>Saturday Service</h3>
+                <div class="time">04:00 – 07:00 EAT</div>
+                <div style="margin-top:0.7rem; opacity:0.85; font-size: 0.9rem;">Marching Prayer</div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <a href="tuesdayservice.html" class="action-btn">
+                <i class="fa-solid fa-book-open-reader"></i>
+                <span>Word Service</span>
+            </a>
+            <a href="nightprayer.html" class="action-btn">
+                <i class="fa-solid fa-moon"></i>
+                <span>Night Prayer</span>
+            </a>
+            <a href="marching.html" class="action-btn">
+                <i class="fa-solid fa-person-walking"></i>
+                <span>Marching Prayer</span>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        © 2026 GPS • All rights are reserved<br>
+        <p>Designed by Alhan</p>
+    </footer>
+</div>
+
+<script>
+    // Slider Logic
+    const slides = document.querySelectorAll('.slide');
+    let current = 0;
+
+    function nextSlide() {
+        slides[current].classList.remove('active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('active');
+    }
+
+    setInterval(nextSlide, 6500);
+
+    // Particles Configuration
+    particlesJS('particles-js', {
+        particles: {
+            number: { value: 70, density: { enable: true, value_area: 800 } },
+            color: { value: ['#3498db', '#e74c3c', '#ffb74d'] },
+            shape: { type: 'circle' },
+            opacity: { value: 0.5, random: true },
+            size: { value: 3, random: true },
+            line_linked: { enable: true, distance: 140, color: '#3498db', opacity: 0.4, width: 1 },
+            move: { enable: true, speed: 1.8, direction: 'none', random: true, straight: false, out_mode: 'out' }
+        },
+        interactivity: {
+            detect_on: 'canvas',
+            events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' } },
+            modes: { repulse: { distance: 90 }, push: { particles_nb: 4 } }
+        },
+        retina_detect: true
+    });
+</script>
+</body>
+</html>

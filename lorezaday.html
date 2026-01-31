@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>God's Prayer Squad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background: #f0f4f8;
+            color: #2c3e50;
+            line-height: 1.6;
+            padding-top: 100px;
+            position: relative;
+
+        }
+
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.8;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.2), rgba(231, 76, 60, 0.2));
+            z-index: -1;
+        }
+
+        .loreza-section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 2rem auto;
+            background: #2c3e50;
+            color: #f0f4f8;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .loreza-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            animation: glowing-border 3s linear infinite;
+        }
+
+        .loreza-section h2 {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1.7em;
+            color: #ffb74d;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .loreza-section p {
+            font-size: 1em;
+            color: #b0bec5;
+            max-width: 800px;
+            margin: 0 auto 3rem auto;
+        }
+
+        .journey-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .journey-step {
+            background: #37474f;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+            perspective: 1000px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: slideIn 0.5s ease-out;
+            border-left: 5px solid #ffb74d;
+        }
+
+        .journey-step::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid transparent;
+            border-radius: 1rem;
+            animation: glowing-border 2.5s linear infinite;
+        }
+
+        .journey-step:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.7);
+        }
+
+        .journey-step img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 2px solid #3498db;
+        }
+
+        .journey-step h3 {
+            font-family: 'Open Sans', sans-serif;
+            color: #ffb74d;
+            font-size: 1.8em;
+            margin-bottom: 0.5rem;
+        }
+
+        .journey-step p {
+            color: #e0e0e0;
+            font-size: 1em;
+            margin: 0;
+        }
+
+        .gallery-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .image-card {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-right: 5px solid #ffb74d;
+        }
+
+        .image-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.5);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(25, 118, 210, 0.8);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1rem;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        .image-card:hover .image-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .image-overlay h4 {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1.5em;
+            margin: 0;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .image-overlay p {
+            font-size: 1em;
+            margin: 0;
+        }
+
+
+       
+        
+
+        @media (max-width: 320px) {
+            body {
+                padding-top: 100px;
+            }
+
+            header {
+                padding: 10px 15px;
+            }
+
+            .header-logo-text {
+                font-size: 1.5em;
+            }
+
+            .gps-circle {
+                width: 40px;
+                height: 40px;
+                margin-left: 10px;
+            }
+
+            .gps-circle span {
+                font-size: 0.9em;
+            }
+
+            .gps-logo img {
+                width: 60px;
+                height: 60px;
+                margin-right: 10px;
+            }
+
+           
+
+            .loreza-section {
+                padding: 40px 15px;
+            }
+
+            .loreza-section h2 {
+                font-size: 0.5rem;
+            }
+
+            .loreza-section p {
+                font-size: 1em;
+            }
+
+            .journey-step {
+                padding: 1.5rem;
+            }
+
+            .journey-step img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .journey-step h3 {
+                font-size: 1.5em;
+            }
+
+            .image-card {
+                width: 100%;
+                height: 150px;
+            }
+
+            .cta-section, .newsletter-section {
+                padding: 30px 15px;
+            }
+
+            .cta-section h2, .newsletter-section h2 {
+                font-size: 1.8em;
+            }
+
+            #newsletter-email {
+                width: 100%;
+            }
+
+            .media a {
+                width: 30px;
+                height: 30px;
+                margin: 0 10px;
+            }
+
+            .media a img {
+                width: 100%;
+                height: 100%;
+            }
+
+            .media a::after {
+                font-size: 0.7em;
+                bottom: -35px;
+            }
+        }
+         header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #2c3e50;
+            color: white;
+            padding: 1rem 1.5rem;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border-bottom: 3px solid #ffb74d ;
+        }
+
+        .header-logo-text {
+            font-family: 'Open Sans', sans-serif;
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
+            font-weight: 700;
+            color: #3498db;
+            margin: 0;
+            text-align: center;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(52,152,219,0.4);
+        }
+         .header-logo-text:hover{
+            color: #ffb74d ;
+
+         }
+
+        .gps-center {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            animation: spin 12s linear infinite;
+        }
+
+        .gps-center::before,
+        .gps-center::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+        }
+
+        .gps-center::before {
+            border: 4px solid transparent;
+            border-top-color: #3498db;
+            border-right-color: #3498db;
+            animation: spin 8s linear infinite;
+            box-shadow: 0 0 20px rgba(52,152,219,0.7);
+        }
+
+        .gps-center::after {
+            border: 3px dashed #ffb74d;
+            inset: 8px;
+            animation: spin 14s linear infinite reverse;
+        }
+
+        .gps-center span {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 0 10px #3498db, 0 0 20px #3498db;
+            z-index: 2;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+         #particles-js {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.75;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(52,152,219,0.18), rgba(231,76,60,0.18));
+            z-index: -1;
+        }
+
+        footer {
+            text-align: center;
+            color: #ffffff;
+            padding: 20px;
+            background: #2c3e50;
+            margin-top: 40px;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #e74c3c);
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            animation: gradient-flow 4s linear infinite;
+        }
+
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        footer p {
+            color: #3498db;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="bg-overlay"></div>
+
+   
+  
+<header>
+     <div class="gps-center">
+        <span>GPS</span>
+    </div>
+    <h1 class="header-logo-text">God's Prayer Squad</h1>
+   
+</header>
+
+    <main class="loreza-section">
+        <h2>Loreza Day<br><hr>The Summit of Prayer</h2>
+        <div class="journey-grid">
+            <div class="journey-step">
+                 <h3>About Lorea day</h3>
+        <p>
+            Loreza Day is more than just a mountain climb; it's a spiritual pilgrimage. As God's Prayer Squad, we ascend the mountain to disconnect from the world and connect with our faith in a profound way. The journey is challenging, but every step brings us closer to a place of solitude and reflection, where the noise of daily life fades away.
+        </p>
+    </div>
+</div>
+<div class="journey-grid">
+            <div class="journey-step">
+                <h3>Our Goals</h3>
+
+        <p>
+            Our ultimate goal is to reach the summit by sunset, where we spend the night in dedicated prayer. The cool mountain air, the vast expanse of the night sky, and the silence of nature create a powerful sanctuary for communion with God. This overnight prayer session is the heart of Loreza Day, renewing our spirits and strengthening our bond as a community of faith.
+        </p>
+    </div>
+</div>
+
+        <h2>The Journey</h2>
+        <div class="journey-grid">
+            <div class="journey-step">
+                <img src="C:\Users\Kitomar1\Downloads\others\picha\veng2.jpg" alt="Ascent Image">
+                <h3>The Ascent</h3>
+                <p>We begin our climb in the early afternoon, preparing for the physical and spiritual challenge ahead.</p>
+            </div>
+            <div class="journey-step">
+                <img src="C:\Users\Kitomar1\Downloads\others\picha\veng4.jpg" alt="Overnight Prayer Image">
+                <h3>Overnight Prayer</h3>
+                <p>We settle in for a night of deep, meaningful prayer, surrounded by the beauty of creation.</p>
+            </div>
+            <div class="journey-step">
+                <img src="C:\Users\Kitomar1\Downloads\others\picha\veng3.jpg" alt="Sunrise Dedication Image">
+                <h3>Sunrise Dedication</h3>
+                <p>We conclude our pilgrimage with a morning prayer, dedicating ourselves and our community.</p>
+            </div>
+        </div>
+
+        <section class="gallery-section">
+            <h2 style="margin-top: 10px; color: #ffb74d;">Moments of Reflection</h2>
+            <div class="gallery-grid">
+                <div class="image-card">
+                    <img src="C:\Users\Kitomar1\Downloads\others\picha\vengfont.jpg" alt="Mountain Climb">
+                    <div class="image-overlay">
+                        <h4>The Climb</h4>
+                        <p>The journey to the top is a test of faith and endurance.</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img src="C:\Users\Kitomar1\Downloads\others\picha\veng3.jpg" alt="Overnight Prayer">
+                    <div class="image-overlay">
+                        <h4>Overnight Prayer</h4>
+                        <p>A serene moment of communion with God under the stars.</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img src="C:\Users\Kitomar1\Downloads\others\picha\veng2.jpg" alt="Sunrise View">
+                    <div class="image-overlay">
+                        <h4>Sunrise View</h4>
+                        <p>Waking up to a breathtaking sunrise, a symbol of new beginnings.</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img src="C:\Users\Kitomar1\Downloads\others\picha\veng2.jpg" alt="Community Prayer">
+                    <div class="image-overlay">
+                        <h4>Community Prayer</h4>
+                        <p>United in faith, lifting our voices as one.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        &copy; 2026 GPS.All rights are reserved<br>
+       <p> Designed by Alhan</p>
+    </footer>
+
+    
+    <script type="module">
+            
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+

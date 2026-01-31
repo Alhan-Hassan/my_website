@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GPS Leaders - God's Prayer Squad</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet"/>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f172a;
+            color: #e0f2fe;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            position: relative;
+            top: 0;
+            width: 100%;
+            background: #1e293b;
+            padding: 1.5rem;
+            z-index: 1000;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+        .container h1 {
+            font-size: clamp(2.2rem, 6vw, 3.5rem);
+            color: #3498db;
+            text-shadow: 0 2px 8px rgba(52,152,219,0.6);
+        }
+        .container p {
+            color: #94a3b8;
+            margin-top: 0.5rem;
+        }
+
+        main {
+            padding: 140px 1rem 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .leaders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .leader-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            transition: transform 0.4s, box-shadow 0.4s;
+        }
+        .leader-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(52,152,219,0.25);
+        }
+
+        .leader-header {
+            padding: 1.8rem 1.5rem 1rem;
+            text-align: center;
+        }
+        .leader-header img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #3498db;
+            margin-bottom: 1rem;
+        }
+        .leader-header h3 {
+            font-size: 1.4rem;
+            color: #ffb74d;
+            margin-bottom: 0.4rem;
+        }
+        .leader-header .position {
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+
+        .stretch-btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border: none;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+        .stretch-btn:hover {
+            background: linear-gradient(135deg, #2980b9, #1e6fa8);
+        }
+        .stretch-btn:active {
+            transform: scale(0.98);
+        }
+
+        .expand-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.7s cubic-bezier(0.25, 0.8, 0.25, 1),
+                        padding 0.7s ease;
+            background: rgba(30, 41, 59, 0.9);
+            padding: 0 1.8rem;
+        }
+
+        .leader-card.expanded .expand-content {
+            max-height: 600px;          /* increase if you have longer bios */
+            padding: 1.8rem;
+        }
+
+        .leader-card.expanded .stretch-btn {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .expand-content p {
+            margin: 0.9rem 0;
+            line-height: 1.6;
+        }
+        .expand-content strong {
+            color: #3498db;
+        }
+
+        #particles-js {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.55;
+        }
+
+        @media (max-width: 600px) {
+            main { padding-top: 120px; }
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #2c3e50;
+            color: white;
+            padding: 1rem 1.5rem;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .header-logo-text {
+            font-family: 'Open Sans', sans-serif;
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
+            font-weight: 700;
+            color: #3498db;
+            margin: 0;
+            text-align: center;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(52,152,219,0.4);
+        }
+         .header-logo-text:hover{
+            color: #ffb74d ;
+
+         }
+
+        .gps-center {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            animation: spin 12s linear infinite;
+        }
+
+        .gps-center::before,
+        .gps-center::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+        }
+
+        .gps-center::before {
+            border: 4px solid transparent;
+            border-top-color: #3498db;
+            border-right-color: #3498db;
+            animation: spin 8s linear infinite;
+            box-shadow: 0 0 20px rgba(52,152,219,0.7);
+        }
+
+        .gps-center::after {
+            border: 3px dashed #ffb74d;
+            inset: 8px;
+            animation: spin 14s linear infinite reverse;
+        }
+
+        .gps-center span {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 0 10px #3498db, 0 0 20px #3498db;
+            z-index: 2;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+         footer {
+            text-align: center;
+            color: #ffffff;
+            padding: 20px;
+            background: #2c3e50;
+            margin-top: 40px;
+            position: relative;
+            width: 100%;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #e74c3c);
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            animation: gradient-flow 4s linear infinite;
+        }
+
+        footer p {
+            color: #3498db;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="particles-js"></div>
+    <header>
+     <div class="gps-center">
+        <span>GPS</span>
+    </div>
+    <h1 class="header-logo-text">God's Prayer Squad</h1>
+   
+</header>
+
+    <div class="container">
+        <h1>GPS Leaders</h1>
+        <p>God's Prayer Squad Leadership Team</p>
+    </div>
+
+    <main>
+        <div class="leaders-grid">
+            <!-- Leader 1 -->
+            <div class="leader-card">
+                <div class="leader-header">
+                    <img src="C:\Users\Kitomar1\Downloads\others\picha\_V1A1825.jpg" alt="Squad: habakuki">
+                    <h3>Squad: Habakuki</h3>
+                    <p class="position">Senior Coordinator</p>
+                </div>
+                <button class="stretch-btn" data-target="expand1">View Details ↓</button>
+                <div class="expand-content" id="expand1">
+                    <p><strong>Full Name:</strong> Squad: Habakuki</p>
+                    <p><strong>Role:</strong> Senior Coordinator</p>
+                    <p><strong>Course / Training:</strong>Telecommunication Engineering</p>
+                    <p><strong>Contact:</strong> 0744525138</p>
+                    <p><strong>Favorite Verse:</strong> "But they that wait upon the LORD shall renew their strength..." – Isaiah 40:31</p>
+                </div>
+            </div>
+
+             <!-- Leader 2 -->
+            <div class="leader-card">
+                <div class="leader-header">
+                    <img src="C:\Users\Kitomar1\Downloads\others\picha\_V1A1825.jpg" alt="Squad: habakuki">
+                    <h3>Squad: Luce</h3>
+                    <p class="position">Vice Coordinator</p>
+                </div>
+                <button class="stretch-btn" data-target="expand1">View Details ↓</button>
+                <div class="expand-content" id="expand1">
+                    <p><strong>Full Name:</strong> Squad: Luce</p>
+                    <p><strong>Role:</strong> Vice Coordinator</p>
+                    <p><strong>Course / Training:</strong>Electrical Engineering</p>
+                    <p><strong>Contact:</strong> 0744525138</p>
+                    <p><strong>Favorite Verse:</strong> "But they that wait upon the LORD shall renew their strength..." – Isaiah 40:31</p>
+                </div>
+            </div>
+
+             <!-- Leader 3 -->
+            <div class="leader-card">
+                <div class="leader-header">
+                    <img src="C:\Users\Kitomar1\Downloads\others\picha\_V1A1825.jpg" alt="Squad: habakuki">
+                    <h3>Squad: Kiribuche</h3>
+                    <p class="position">First Secretary Coordinator</p>
+                </div>
+                <button class="stretch-btn" data-target="expand1">View Details ↓</button>
+                <div class="expand-content" id="expand1">
+                    <p><strong>Full Name:</strong> Squad: Kiribuche</p>
+                    <p><strong>Role:</strong> First Secretary Coordinator</p>
+                    <p><strong>Course / Training:</strong>Electrical Engineering</p>
+                    <p><strong>Contact:</strong> 0782744692</p>
+                    <p><strong>Favorite Verse:</strong> "But they that wait upon the LORD shall renew their strength..." – Isaiah 40:31</p>
+                </div>
+            </div>
+
+             <!-- Leader 4 -->
+            <div class="leader-card">
+                <div class="leader-header">
+                    <img src="C:\Users\Kitomar1\Downloads\others\picha\_V1A1825.jpg" alt="Squad: habakuki">
+                    <h3>Squad: Revocatus</h3>
+                    <p class="position">Second Secretary Coordinator</p>
+                </div>
+                <button class="stretch-btn" data-target="expand1">View Details ↓</button>
+                <div class="expand-content" id="expand1">
+                    <p><strong>Full Name:</strong> Squad: Revocatus</p>
+                    <p><strong>Role:</strong> Second Secretary Coordinator</p>
+                    <p><strong>Course / Training:</strong>Electrical Engineering</p>
+                    <p><strong>Contact:</strong> 0744525138</p>
+                    <p><strong>Favorite Verse:</strong> "But they that wait upon the LORD shall renew their strength..." – Isaiah 40:31</p>
+                </div>
+            </div>
+
+             <!-- Leader 5 -->
+            <div class="leader-card">
+                <div class="leader-header">
+                    <img src="C:\Users\Kitomar1\Downloads\others\picha\_V1A1825.jpg" alt="Squad: habakuki">
+                    <h3>Squad: Einoth</h3>
+                    <p class="position">Financial Coordinator</p>
+                </div>
+                <button class="stretch-btn" data-target="expand1">View Details ↓</button>
+                <div class="expand-content" id="expand1">
+                    <p><strong>Full Name:</strong> Squad: Einoth</p>
+                    <p><strong>Role:</strong> Financial Coordinator</p>
+                    <p><strong>Course / Training:</strong>Natural resource Conservation Managemant</p>
+                    <p><strong>Contact:</strong> 0710623006</p>
+                    <p><strong>Favorite Verse:</strong> "But they that wait upon the LORD shall renew their strength..." – Isaiah 40:31</p>
+                </div>
+            </div>
+
+             <!-- Leader 6 -->
+            <div class="leader-card">
+                <div class="leader-header">
+                    <img src="C:\Users\Kitomar1\Downloads\others\picha\_V1A1825.jpg" alt="Squad: habakuki">
+                    <h3>Squad: Elia</h3>
+                    <p class="position">Media Coordinator</p>
+                </div>
+                <button class="stretch-btn" data-target="expand1">View Details ↓</button>
+                <div class="expand-content" id="expand1">
+                    <p><strong>Full Name:</strong> Squad: Elia</p>
+                    <p><strong>Role:</strong>Media Coordinator</p>
+                    <p><strong>Course / Training:</strong>Architecture Engineering</p>
+                    <p><strong>Contact:</strong> 0762822241</p>
+                    <p><strong>Favorite Verse:</strong> "But they that wait upon the LORD shall renew their strength..." – Isaiah 40:31</p>
+                </div>
+            </div>
+
+              <!-- Leader 7 -->
+            <div class="leader-card">
+                <div class="leader-header">
+                    <img src="C:\Users\Kitomar1\Downloads\others\picha\_V1A1825.jpg" alt="Squad: habakuki">
+                    <h3>Squad: Noel</h3>
+                    <p class="position">Social Coordinator</p>
+                </div>
+                <button class="stretch-btn" data-target="expand1">View Details ↓</button>
+                <div class="expand-content" id="expand1">
+                    <p><strong>Full Name:</strong> Squad: Noel</p>
+                    <p><strong>Role:</strong>Social Coordinator</p>
+                    <p><strong>Course / Training:</strong>Electrical Engineering</p>
+                    <p><strong>Contact:</strong> 0744525138</p>
+                    <p><strong>Favorite Verse:</strong> "But they that wait upon the LORD shall renew their strength..." – Isaiah 40:31</p>
+                </div>
+            </div>
+
+            <!-- Leader 8 -->
+            <div class="leader-card">
+                <div class="leader-header">
+                    <img src="C:\Users\Kitomar1\Downloads\others\picha\_V1A1825.jpg" alt="Squad: habakuki">
+                    <h3>Squad: Iryne</h3>
+                    <p class="position">Women Hostel Coordinator</p>
+                </div>
+                <button class="stretch-btn" data-target="expand1">View Details ↓</button>
+                <div class="expand-content" id="expand1">
+                    <p><strong>Full Name:</strong> Squad: Iryne</p>
+                    <p><strong>Role:</strong>Social Coordinator</p>
+                    <p><strong>Course / Training:</strong>Data Science</p>
+                    <p><strong>Contact:</strong> 0742870992</p>
+                    <p><strong>Favorite Verse:</strong> "But they that wait upon the LORD shall renew their strength..." – Isaiah 40:31</p>
+                </div>
+            </div>
+
+            <!-- Leader 9 -->
+            <div class="leader-card">
+                <div class="leader-header">
+                    <img src="C:\Users\Kitomar1\Downloads\others\picha\_V1A1825.jpg" alt="Squad: habakuki">
+                    <h3>Squad: George</h3>
+                    <p class="position">Men Hostel Coordinator</p>
+                </div>
+                <button class="stretch-btn" data-target="expand1">View Details ↓</button>
+                <div class="expand-content" id="expand1">
+                    <p><strong>Full Name:</strong> Squad: George</p>
+                    <p><strong>Role:</strong>Social Coordinator</p>
+                    <p><strong>Course / Training:</strong>Electrical Engineering</p>
+                    <p><strong>Contact:</strong> 0744525138</p>
+                    <p><strong>Favorite Verse:</strong> "But they that wait upon the LORD shall renew their strength..." – Isaiah 40:31</p>
+                </div>
+            </div>
+
+            <!-- Leader 10 -->
+            <div class="leader-card">
+                <div class="leader-header">
+                    <img src="C:\Users\Kitomar1\Downloads\others\picha\_V1A1825.jpg" alt="Squad: habakuki">
+                    <h3>Squad: Happy</h3>
+                    <p class="position">Ikuti Coordinator</p>
+                </div>
+                <button class="stretch-btn" data-target="expand1">View Details ↓</button>
+                <div class="expand-content" id="expand1">
+                    <p><strong>Full Name:</strong> Squad: Happy</p>
+                    <p><strong>Role:</strong>Ikuti Coordinator</p>
+                    <p><strong>Course / Training:</strong>natural Resourse Conservation Management</p>
+                    <p><strong>Contact:</strong> 0744525138</p>
+                    <p><strong>Favorite Verse:</strong> "But they that wait upon the LORD shall renew their strength..." – Isaiah 40:31</p>
+                </div>
+            </div>
+
+              <!-- Leader 11 -->
+            <div class="leader-card">
+                <div class="leader-header">
+                    <img src="C:\Users\Kitomar1\Downloads\others\picha\_V1A1825.jpg" alt="Squad: habakuki">
+                    <h3>Squad: John</h3>
+                    <p class="position">Coca Coordinator</p>
+                </div>
+                <button class="stretch-btn" data-target="expand1">View Details ↓</button>
+                <div class="expand-content" id="expand1">
+                    <p><strong>Full Name:</strong> Squad: John</p>
+                    <p><strong>Role:</strong>Coca Coordinator</p>
+                    <p><strong>Course / Training:</strong>Electrical Engineering</p>
+                    <p><strong>Contact:</strong> 0744525138</p>
+                    <p><strong>Favorite Verse:</strong> "But they that wait upon the LORD shall renew their strength..." – Isaiah 40:31</p>
+                </div>
+            </div>
+
+              <!-- Leader 10 -->
+            <div class="leader-card">
+                <div class="leader-header">
+                    <img src="C:\Users\Kitomar1\Downloads\others\picha\_V1A1825.jpg" alt="Squad: habakuki">
+                    <h3>Squad: Essau</h3>
+                    <p class="position">Inyara Coordinator</p>
+                </div>
+                <button class="stretch-btn" data-target="expand1">View Details ↓</button>
+                <div class="expand-content" id="expand1">
+                    <p><strong>Full Name:</strong> Squad: Essau</p>
+                    <p><strong>Role:</strong>Inyara Coordinator</p>
+                    <p><strong>Course / Training:</strong>natural Resourse Conservation Management</p>
+                    <p><strong>Contact:</strong> 0614515995</p>
+                    <p><strong>Favorite Verse:</strong> "But they that wait upon the LORD shall renew their strength..." – Isaiah 40:31</p>
+                </div>
+            </div>
+
+          
+
+           <footer>
+               &copy; 2026 GPS.All rights are reserved<br>
+               <p>Designed by Alhan</p>
+           </footer>
+        </div>
+    </main>
+
+    <script>
+        // Button stretch + expand logic
+        document.querySelectorAll('.stretch-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetId = btn.getAttribute('data-target');
+                const content = document.getElementById(targetId);
+                const card = btn.closest('.leader-card');
+
+                // Toggle expanded state
+                card.classList.toggle('expanded');
+
+                // Update button text
+                btn.textContent = card.classList.contains('expanded')
+                    ? 'Hide Details ↑'
+                    : 'View Details ↓';
+            });
+        });
+
+        // Particles background
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 50, density: { enable: true, value_area: 800 } },
+                color: { value: ['#3498db', '#ffb74d'] },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: '#3498db', opacity: 0.3, width: 1 },
+                move: { enable: true, speed: 1.2, direction: 'none', random: true, straight: false, out_mode: 'out' }
+            },
+            interactivity: {
+                events: { onhover: { enable: true, mode: 'grab' } }
+            },
+            retina_detect: true
+        });
+    </script>
+</body>
+</html>
