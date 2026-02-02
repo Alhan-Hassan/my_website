@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>God's Prayer Squad</title>
+  <style>
+    /* Reset & Global */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f8fafc;
+      color: #1e293b;
+      line-height: 1.6;
+      padding-top: 170px;
+    }
+
+    #particles-js {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.75;
+    }
+    .bg-overlay {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(52,152,219,0.18), rgba(231,76,60,0.18));
+      z-index: -1;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #2c3e50;
+      color: white;
+      padding: clamp(0.8rem, 3vw, 1.2rem) 5%;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .header-logo-text {
+      font-size: clamp(1.6rem, 6vw, 2.4rem);
+      font-weight: 700;
+      color: #3498db;
+      text-shadow: 0 0 8px rgba(52,152,219,0.4);
+    }
+    .header-logo-text:hover {
+      color: #ffb74d;
+    }
+
+    .gps-center {
+      width: clamp(60px, 15vw, 80px);
+      height: clamp(60px, 15vw, 80px);
+      position: relative;
+      animation: spin 12s linear infinite;
+    }
+    .gps-center::before,
+    .gps-center::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+    }
+    .gps-center::before {
+      border: 4px solid transparent;
+      border-top-color: #3498db;
+      border-right-color: #3498db;
+      animation: spin 8s linear infinite;
+      box-shadow: 0 0 20px rgba(52,152,219,0.7);
+    }
+    .gps-center::after {
+      border: 3px dashed #ffb74d;
+      inset: 8px;
+      animation: spin 14s linear infinite reverse;
+    }
+    .gps-center span {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(1.1rem, 4vw, 1.5rem);
+      font-weight: 800;
+      color: white;
+      text-shadow: 0 0 10px #3498db, 0 0 20px #3498db;
+      z-index: 2;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Hero Section with Slideshow + Circle Cake Overlay */
+    .hero {
+      height: clamp(70vh, 85vh, 90vh);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(rgba(30, 58, 138, 0.68), rgba(30, 58, 138, 0.68));
+      z-index: 1;
+    }
+
+    .slideshow {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      animation: slideshow 40s infinite;
+      z-index: 0;
+    }
+
+    @keyframes slideshow {
+      0%    { background-image: url('gps day best.jpg'); }
+      20%   { background-image: url('gps day cake best.jpg'); }
+      25%   { background-image: url('gps daychakule.jpg'); }
+      45%   { background-image: url('gps day chakula1.jpg'); }
+      50%   { background-image: url('gps day chakula2.jpg'); }
+      70%   { background-image: url('gps day1.jpg'); }
+      75%   { background-image: url('gps day2.jpg'); }
+      95%   { background-image: url('gps day.jpg'); }
+      
+    }
+
+    .hero-content {
+      max-width: 900px;
+      padding: 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 10vw, 6.2rem);
+      font-weight: 900;
+      margin-bottom: 1rem;
+      text-shadow: 0 6px 25px rgba(0,0,0,0.5);
+    }
+
+    .hero .subtitle {
+      font-size: clamp(1.3rem, 5vw, 1.9rem);
+      margin-bottom: 2rem;
+      opacity: 0.95;
+      font-weight: 300;
+    }
+
+    .cta-primary {
+      background: #f59e0b;
+      color: #1e293b;
+      padding: clamp(1rem, 4vw, 1.3rem) clamp(2rem, 6vw, 3.2rem);
+      font-size: clamp(1.1rem, 4vw, 1.35rem);
+      font-weight: 700;
+      border-radius: 999px;
+      text-decoration: none;
+      box-shadow: 0 10px 30px rgba(245, 158, 11, 0.4);
+      transition: all 0.4s ease;
+      display: inline-block;
+    }
+
+    .cta-primary:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 45px rgba(245, 158, 11, 0.55);
+    }
+
+    /* Circle Cake Overlay at top of hero */
+    .cake-circle {
+      position: absolute;
+      top: clamp(1rem, 5vw, 2rem);
+      left: 50%;
+      transform: translateX(-50%);
+      width: clamp(100px, 25vw, 180px);
+      height: clamp(100px, 25vw, 180px);
+      border-radius: 50%;
+      overflow: hidden;
+      border: 6px solid #fff;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+      z-index: 3;
+      background: #fff;
+    }
+
+    .cake-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Main Content */
+    section {
+      padding: clamp(4rem, 10vw, 7rem) 5%;
+    }
+
+    h2 {
+      font-size: clamp(2.2rem, 7vw, 3.2rem);
+      color: #1e40af;
+      text-align: center;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    h2::after {
+      content: '';
+      width: 80px;
+      height: 4px;
+      background: #f59e0b;
+      display: block;
+      margin: 1rem auto 0;
+      border-radius: 2px;
+    }
+
+    p.lead {
+      font-size: clamp(1.1rem, 4vw, 1.35rem);
+      max-width: 900px;
+      margin: 0 auto 2.5rem;
+      text-align: center;
+      color: #475569;
+    }
+
+    /* About GPS Day Rectangle Container */
+    .about-rect {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+      margin: 2.5rem auto;
+      max-width: 1300px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .about-rect .rect-header-img {
+      width: 100%;
+      height: clamp(180px, 35vw, 280px);
+      object-fit: cover;
+    }
+
+    .about-rect .rect-inner {
+      padding: clamp(1.5rem, 5vw, 2.5rem);
+    }
+
+    /* Journey Grid inside rectangle */
+    .journey-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    .card {
+      background: #f9fafb;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      border-bottom: 6px solid #3498db;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 16px 40px rgba(59,130,246,0.18);
+    }
+
+    .card-img {
+      width: 100%;
+      height: clamp(180px, 40vw, 220px);
+      object-fit: cover;
+    }
+
+    .card-body {
+      padding: clamp(1.2rem, 4vw, 1.8rem);
+    }
+
+    .card h3 {
+      font-size: clamp(1.4rem, 5vw, 1.75rem);
+      color: #1e40af;
+      margin-bottom: 0.8rem;
+    }
+
+    .card p {
+      font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+      color: #64748b;
+    }
+
+    /* Spiritual Meaning */
+    .spiritual {
+      background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
+    }
+
+    .spiritual .content {
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    /* Preparation & CTA */
+    .preparation {
+      background: #1e293b;
+      color: white;
+      text-align: center;
+      border-left: 5px solid whitesmoke;
+    }
+
+    .preparation .cta-secondary {
+      background: transparent;
+      border: 3px solid #f59e0b;
+      color: #f59e0b;
+      padding: clamp(1rem, 4vw, 1.2rem) clamp(2rem, 6vw, 3rem);
+      font-size: clamp(1.1rem, 4vw, 1.3rem);
+      font-weight: 700;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: all 0.4s ease;
+      margin-top: 2rem;
+      display: inline-block;
+    }
+
+    .preparation .cta-secondary:hover {
+      background: #f59e0b;
+      color: #1e293b;
+    }
+
+    /* Footer */
+    footer {
+      background: #0f172a;
+      color: #94a3b8;
+      padding: clamp(3rem, 8vw, 4rem) 5% 2rem;
+      text-align: center;
+      font-size: clamp(0.9rem, 3vw, 1rem);
+    }
+
+    .footer-links a {
+      color: #cbd5e1;
+      margin: 0 1rem;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover { color: #60a5fa; }
+
+    footer p {
+      margin-top: 1.5rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      header { padding: 1rem 4%; gap: 0.4rem; }
+      nav ul { flex-wrap: wrap; gap: 1rem; justify-content: center; }
+      .journey-grid { grid-template-columns: 1fr; }
+      section { padding: 4rem 6%; }
+      .about-rect { margin: 1.5rem 4%; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { margin-bottom: 0.8rem; }
+      .hero .subtitle { margin-bottom: 1.5rem; }
+      .cake-circle { top: 0.8rem; width: 110px; height: 110px; border-width: 4px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js"></div>
+  <div class="bg-overlay"></div>
+
+  <header>
+    <div class="gps-center">
+      <span>GPS</span>
+    </div>
+    <h1 class="header-logo-text">God's Prayer Squad</h1>
+  </header>
+
+  <!-- Hero with Slideshow + Top Circle Cake -->
+  <section class="hero">
+    <div class="slideshow"></div>
+    <div class="cake-circle">
+      <img src="https://thumbs.dreamstime.com/b.jpg" alt="Festive Birthday Cake with Candles">
+    </div>
+    <div class="hero-content">
+      <h1>GPS Day</h1>
+      <p class="subtitle">The Rebirth of Our GPS Community • A Journey of Faith, Reflection & Renewal</p>
+      <a href="#preparation" class="cta-primary">Learn More About GPS Day</a>
+    </div>
+  </section>
+
+  <!-- Introduction - About GPS Day with Rectangle Container -->
+  <section>
+    <h2>About GPS Day</h2>
+    <p class="lead">
+      God's Prayer Squad (GPS) Day is an annual event where our community comes together to strengthen our faith through eating, drinking, and dancing together. It's a day dedicated to spiritual reflection, sharing testimonies, and lifting our voices in unity. We believe in the power of prayer to transform lives and communities, and this day serves as a powerful reminder of that.<br><br>
+      On this special day, new coordinators for GPS will also be announced.
+    </p>
+
+    <div class="about-rect">
+      <img src="gps day best.jpg" alt="Joyful community worship and fellowship" class="rect-header-img">
+      <div class="rect-inner">
+        <div class="journey-grid">
+          <div class="card">
+            <img src="gps day.jpg" alt="Joyful community gathering" class="card-img">
+            <div class="card-body">
+              <h3>Joy Before the Lord</h3>
+              <p>People from various areas, including nearby universities like MUCHAS, CUOM, and TIA, join us to celebrate this day through eating and drinking together in fellowship.</p>
+            </div>
+          </div>
+          <div class="card">
+            <img src="gps day1.jpg" alt="People sharing testimony" class="card-img">
+            <div class="card-body">
+              <h3>Testimony Sharing</h3>
+              <p>In our GPS community, many members have experienced God's transforming power in their lives. During this day, some of them share their powerful testimonies.</p>
+            </div>
+          </div>
+          <div class="card">
+            <img src="gps day2.jpg" alt="Group celebration" class="card-img">
+            <div class="card-body">
+              <h3>Coordinator Announcement</h3>
+              <p>During this special and dedicated day, the new GPS coordinators are announced, marking the beginning of a new season of leadership.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Spiritual Meaning -->
+  <section class="spiritual">
+    <div class="content">
+      <h2>Why It's Important to Join Us</h2>
+      <p class="lead" style="color: #334155;">
+        "Let us not give up meeting together... but let us encourage one another." (Hebrews 10:25)<br><br>
+        Every moment spent together reminds us of life's fragility and sacredness.<br>
+        Coming together invites perspective, awe, and renewed commitment to live with purpose and compassion.
+      </p>
+    </div>
+  </section>
+
+  <!-- Preparation -->
+  <section id="preparation" class="preparation">
+    <h2>Preparing for the Next GPS Day</h2>
+    <p style="max-width: 800px; margin: 0 auto 2.5rem; font-size: 1.25rem;">
+      Don't miss this joyful day — it's completely free, including transport from any area where you are!
+    </p>
+    <div style="max-width: 1000px; margin: 0 auto; text-align: left; font-size: 1.15rem;">
+      <ul style="list-style: none; padding-left: 0; display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+        <li>• Connect with various people from different backgrounds</li>
+        <li>• Receive blessings and encouragement from God and the community</li>
+        <li>• Enjoy food, fellowship, testimonies, and praise</li>
+        <li>• Be part of announcing and welcoming new leadership</li>
+      </ul>
+    </div>
+    <a href="testimony.html" class="cta-secondary">View Some Testimonials</a>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="#">Gallery</a>
+      <a href="testimony.html">Testimonials</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <p>© 2026 GPS. All rights reserved.<br>Designed by Alhan</p>
+  </footer>
+</body>
+</html>
