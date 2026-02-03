@@ -1,669 +1,264 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>God's Prayer Squad</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Fasting & Prayer • Draw Near to Jesus</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Cinzel+Decorative:wght@700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #2563eb;
-            --secondary-color: #7dd3fc;
-            --gradient-bg: linear-gradient(135deg, #2563eb, #7dd3fc);
-            scroll-behavior: smooth;
+            --primary: #1e3a8a;      /* deep midnight blue */
+            --accent: #d4af37;       /* soft gold for Christ’s light */
+            --bg: #0f172a;
+            --text: #e2e8f0;
+            --card: rgba(30, 58, 138, 0.45);
+            --glow: 0 0 25px rgba(212,175,55,0.3);
         }
+        * { margin:0; padding:0; box-sizing:border-box; }
         body {
-            font-family: 'Inter', sans-serif;
-            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Scheherazade New', serif;
+            background: linear-gradient(to bottom, #0f172a, #1e293b);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
         }
-        .message-container {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            transition: all 0.5s ease-in-out;
-            opacity: 0;
-            pointer-events: none;
-            max-width: 90%;
-            text-align: center;
-        }
-        .message-container.active {
-            opacity: 1;
-            bottom: 40px;
-            pointer-events: auto;
-        }
-        .popup-message {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1001;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease-in-out;
-            border-bottom: 5px solid #00f6ff;
-        }
-        .popup-message.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .dark-mode .popup-message {
-            background: rgba(45, 55, 72, 0.95);
-            color: #e2e8f0;
-        }
-        .popup-message button {
-            margin-top: 1rem;
-            padding: 0.5rem 1rem;
-            background: var(--primary-color);
-            color: white;
-            border-radius: 8px;
-            transition: background 0.2s;
-        }
-        .popup-message button:hover {
-            background: var(--secondary-color);
-        }
-        .dark-mode {
-            background-color: #1a202c;
-            color: #e2e8f0;
-        }
-        .dark-mode .bg-white {
-            background-color: #2d3748;
-        }
-        .dark-mode .text-gray-700 {
-            color: #e2e8f0;
-        }
-        .dark-mode .bg-blue-600 {
-            background-color: #2b6cb0;
-        }
-        .dark-mode .text-blue-800 {
-            color: #63b3ed;
-        }
-        .dark-mode .border-gray-300 {
-            border-color: #4a5568;
-        }
-        .dark-mode .bg-gray-100 {
-            background-color: #1a202c;
-        }
-        .dark-mode .text-gray-500 {
-            color: #a0aec0;
-        }
-        .dark-mode .bg-gray-500 {
-            background-color: #4a5568;
-        }
-        .dark-mode .hover\:bg-gray-500:hover {
-            background-color: #718096;
-        }
-        .dark-mode .bg-blue-700 {
-            background-color: #1e40af;
-        }
-        .dark-mode .hover\:bg-blue-700:hover {
-            background-color: #2563eb;
-        }
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .dark-mode .glass-effect {
-            background: rgba(45, 55, 72, 0.3);
-            border: 1px solid rgba(160, 174, 192, 0.2);
-        }
-        .section-gradient {
-            background: var(--gradient-bg);
-            transition: background 0.5s;
-        }
-        .btn-hover {
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .btn-hover:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-        .card-hover {
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .card-hover:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        }
-        .scroll-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            opacity: 0;
-            transition: opacity 0.3s, transform 0.3s;
-            z-index: 1000;
-        }
-        .scroll-to-top.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .theme-btn {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            margin-left: 8px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .theme-btn:hover {
-            transform: scale(1.2);
-        }
-        .progress-bar {
-            height: 6px;
-            background: #e5e7eb;
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        .progress-bar-fill {
-            height: 100%;
-            background: var(--primary-color);
-            transition: width 0.5s ease-in-out;
-        }
-        .verse-carousel {
+        .hero {
             position: relative;
-            width: 100%;
-            height: 100px;
-            overflow: hidden;
-            z-index: 10; /* Ensure carousel is on its own layer */
+            min-height: 100vh;
             display: flex;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
+            text-align: center;
+            padding: 40px 20px;
         }
-        .dark-mode .verse-carousel {
-            background: rgba(45, 55, 72, 0.2);
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: url('https://images.unsplash.com/photo-1505740106531-4243f3831145?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
+            opacity: 0.15;
+            z-index: 0;
         }
-        .verse-container {
-            display: flex;
-            animation: slide 60s infinite steps(5, end); /* 12 seconds per verse */
-            white-space: nowrap;
+        .content {
+            position: relative;
+            z-index: 1;
+            max-width: 920px;
         }
-        .verse-item {
-            flex: 0 0 auto;
-            width: 600px; /* Fixed width to ensure full visibility */
-            padding: 1rem;
-            font-size: 1.25rem;
-            color: #1e40af;
+        h1 {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 4.8rem;
+            color: var(--accent);
+            margin-bottom: 0.3rem;
+            text-shadow: var(--glow);
+        }
+        .subtitle {
+            font-size: 1.7rem;
+            opacity: 0.9;
+            margin-bottom: 3rem;
             font-style: italic;
-            text-align: left;
-            white-space: normal; /* Allow text wrapping within item */
         }
-        .dark-mode .verse-item {
-            color: #63b3ed;
+        .section {
+            background: var(--card);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem auto;
+            max-width: 840px;
+            box-shadow: var(--glow);
         }
-        @keyframes slide {
-            0% { transform: translateX(0); }
-            20% { transform: translateX(0); } /* Pause at first verse */
-            25% { transform: translateX(-600px); } /* Move to second */
-            45% { transform: translateX(-600px); } /* Pause at second */
-            50% { transform: translateX(-1200px); } /* Move to third */
-            70% { transform: translateX(-1200px); } /* Pause at third */
-            75% { transform: translateX(-1800px); } /* Move to fourth */
-            95% { transform: translateX(-1800px); } /* Pause at fourth */
-            100% { transform: translateX(-2400px); } /* Move to fifth */
+        h2 {
+            color: var(--accent);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-family: 'Cinzel Decorative', serif;
         }
-        .verse-container:hover {
-            animation-play-state: paused;
+        p, ul {
+            line-height: 1.85;
+            font-size: 1.22rem;
         }
-
-         /* Footer */
+        .verse {
+            font-style: italic;
+            color: #cbd5e1;
+            margin: 1.2rem 0;
+            padding: 1rem;
+            border-left: 4px solid var(--accent);
+        }
+        ul.benefits {
+            list-style: none;
+            padding: 0;
+        }
+        ul.benefits li {
+            margin: 1.3rem 0;
+            padding-left: 2.4rem;
+            position: relative;
+        }
+        ul.benefits li::before {
+            content: "✝";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 1.4rem;
+        }
+        .timer-card {
+            text-align: center;
+            margin: 5rem auto 3rem;
+            max-width: 540px;
+        }
+        #timer {
+            font-size: 5.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            letter-spacing: 12px;
+            margin: 1.4rem 0;
+            font-family: monospace;
+            text-shadow: var(--glow);
+        }
+        .timer-status {
+            font-size: 1.35rem;
+            margin: 1.2rem 0 2.2rem;
+            opacity: 0.88;
+        }
+        .timer-btn {
+            background: var(--accent);
+            color: #0f172a;
+            border: none;
+            padding: 18px 44px;
+            font-size: 1.35rem;
+            border-radius: 50px;
+            margin: 14px;
+            cursor: pointer;
+            transition: all 0.35s ease;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+        }
+        .timer-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(212,175,55,0.45);
+        }
+        .timer-btn.pause { background: #b91c1c; color: white; }
         footer {
             text-align: center;
-            color: #ffffff;
-            padding: 20px;
-            background: #2c3e50;
-            margin-top: 40px;
-            position: relative;
+            padding: 5rem 1rem 3rem;
+            font-size: 1.15rem;
+            opacity: 0.8;
         }
-
-        footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            width: 60%;
-            height: 3px;
-            background: linear-gradient(90deg, #3498db, #e74c3c);
-            margin: 0 auto;
-            left: 0;
-            right: 0;
-            animation: gradient-flow 4s linear infinite;
-        }
-
-        footer p {
-            color: #3498db;
-            margin: 5px 0;
-        }
-         header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: #2c3e50;
-            color: #ffffff;
-            padding: 15px 20px;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .header-logo-text {
-            font-family: 'Open Sans', sans-serif;
-            font-size: 2.2em;
-            font-weight: 600;
-            color: #3498db;
-            flex: 1;
-            text-align: center;
-            margin: 0;
-            transition: color 0.3s ease, text-shadow 0.3s ease;
-        }
-
-        .header-logo-text:hover {
-            color: #2980b9;
-            text-shadow: 0 0 10px rgba(52, 152, 219, 0.7);
-        }
-
-        .gps-circle {
-            width: 60px;
-            height: 60px;
-            border: 2px dashed #3498db;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: 20px;
-            animation: shine 2s ease-in-out infinite;
-        }
-
-        .gps-circle span {
-            font-family: 'Open Sans', sans-serif;
-            font-size: 1.2em;
-            font-weight: 600;
-            color: #ffffff;
-            text-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
-        }
-
-        @keyframes shine {
-            0%, 100% { box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); }
-            50% { box-shadow: 0 0 15px rgba(52, 152, 219, 0.8); }
-        }
-        body{
-            padding-top: 230px;
+        @media (max-width: 768px) {
+            h1 { font-size: 3.8rem; }
+            #timer { font-size: 4.2rem; letter-spacing: 8px; }
+            .timer-btn { padding: 15px 32px; font-size: 1.15rem; }
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
-     
-  
-    <script type="module">
-        // Simple UUID generator for local user ID
-        function generateUUID() {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
-            });
-        }
+<body>
 
-        // Load or generate user ID
-        let userId = localStorage.getItem('prayerAppUserId');
-        if (!userId) {
-            userId = generateUUID();
-            localStorage.setItem('prayerAppUserId', userId);
-        }
+    <div class="hero">
+        <div class="content">
+            <h1>Fasting & Prayer</h1>
+            <p class="subtitle">“But when you pray… and when you fast… your Father who sees in secret will reward you.” — Matthew 6:6, 18</p>
 
-        // Function to show temporary messages
-        function showMessage(text, isError = false) {
-            const messageEl = document.getElementById('message-box');
-            if (!messageEl) return;
-            messageEl.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'} mr-2"></i>${text}`;
-            messageEl.className = `message-container active px-6 py-3 rounded-full shadow-lg ${isError ? 'bg-red-500 text-white' : 'bg-blue-500 text-white'}`;
-            setTimeout(() => {
-                messageEl.classList.remove('active');
-            }, 3000);
-        }
+            <div class="section">
+                <h2>The Heart of Biblical Fasting & Prayer</h2>
+                <p>Jesus Himself fasted forty days and nights in the wilderness, drawing close to the Father and overcoming temptation (Matthew 4:1-11). He taught that certain breakthroughs come only “by prayer and fasting” (Matthew 17:21). This sacred discipline turns our hunger toward heaven, quiets the flesh, and opens our spirit to hear God’s voice more clearly.</p>
+                <p class="verse">“Come near to God and He will come near to you.” — James 4:8</p>
+            </div>
 
-        // Function to show persistent popup
-        function showPopupMessage(text) {
-            const popupEl = document.getElementById('popup-message');
-            if (!popupEl) return;
-            popupEl.innerHTML = `
-                <div class="flex items-center justify-center">
-                    <i class="fas fa-clock mr-2 text-lg"></i>
-                    <span>${text}</span>
-                </div>
-                <button id="close-popup" class="btn-hover" aria-label="Close popup">Close</button>
-            `;
-            popupEl.classList.add('active');
-            const closeBtn = document.getElementById('close-popup');
-            if (closeBtn) {
-                closeBtn.addEventListener('click', () => {
-                    popupEl.classList.remove('active');
-                });
-            }
-        }
+            <div class="section">
+                <h2>Beautiful Blessings from Scripture</h2>
+                <ul class="benefits">
+                    <li>Deeper intimacy with Jesus and sensitivity to the Holy Spirit</li>
+                    <li>Clarity and divine guidance for decisions (Acts 13:2-3; 14:23)</li>
+                    <li>Humility before God, breaking pride and strongholds</li>
+                    <li>Power over temptation and spiritual warfare (Matthew 4; Ephesians 6:12)</li>
+                    <li>Renewed dependence on God’s Word alone (“Man shall not live by bread alone” — Matthew 4:4)</li>
+                    <li>Answered prayer with urgency and faith (Ezra 8:23; Mark 9:29)</li>
+                    <li>Secret reward from our loving Father who sees what is hidden (Matthew 6:16-18)</li>
+                </ul>
+            </div>
 
-        // Theme Management
-        function setTheme(primaryColor, secondaryColor) {
-            document.documentElement.style.setProperty('--primary-color', primaryColor);
-            document.documentElement.style.setProperty('--secondary-color', secondaryColor);
-            document.documentElement.style.setProperty('--gradient-bg', `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`);
-            localStorage.setItem('theme', JSON.stringify({ primary: primaryColor, secondary: secondaryColor }));
-        }
+            <div class="section">
+                <h2>Simple Biblical Guidance</h2>
+                <p>Begin with sincere heart — confess sins, set your intention to seek Jesus. Start small: skip one meal, or fast one day. Let every hunger pang become a call to pray, read the Word, or worship. Do it privately, not for show (Matthew 6:16-18). Hydrate well, break the fast gently with light food, and give thanks. Keep your eyes on Christ — this is about relationship, not ritual.</p>
+                <p class="verse">“Is not this the fast that I choose: to loose the bonds of wickedness… and not to hide yourself from your own flesh?” — Isaiah 58:6-7</p>
+            </div>
 
-        // Dark Mode Toggle
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            const isDarkMode = document.body.classList.contains('dark-mode');
-            localStorage.setItem('darkMode', isDarkMode);
-            const toggleBtn = document.getElementById('dark-mode-toggle');
-            if (toggleBtn) {
-                toggleBtn.innerHTML = isDarkMode ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
-                toggleBtn.setAttribute('aria-pressed', isDarkMode);
-            }
-        }
-
-        // Prayer Timer
-        let timerInterval = null;
-        let timerProgress = 0;
-        let totalSeconds = 0;
-        function startPrayerTimer() {
-            const timerDisplay = document.getElementById('timer-display');
-            const startBtn = document.getElementById('start-timer');
-            const stopBtn = document.getElementById('stop-timer');
-            const progressFill = document.getElementById('progress-fill');
-            if (!timerDisplay || !startBtn || !stopBtn || !progressFill) return;
-
-            totalSeconds = 0;
-            startBtn.disabled = true;
-            startBtn.setAttribute('aria-disabled', 'true');
-            stopBtn.disabled = false;
-            stopBtn.setAttribute('aria-disabled', 'false');
-            startBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Praying...';
-            clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                totalSeconds++;
-                timerProgress = Math.min((totalSeconds / 300) * 100, 100); // 5 minutes max
-                const minutes = Math.floor(totalSeconds / 60);
-                const seconds = totalSeconds % 60;
-                timerDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-                progressFill.style.width = `${timerProgress}%`;
-            }, 1000);
-        }
-
-        function stopPrayerTimer() {
-            const timerDisplay = document.getElementById('timer-display');
-            const startBtn = document.getElementById('start-timer');
-            const stopBtn = document.getElementById('stop-timer');
-            const progressFill = document.getElementById('progress-fill');
-            if (!timerDisplay || !startBtn || !stopBtn || !progressFill) return;
-
-            clearInterval(timerInterval);
-            timerInterval = null;
-            const minutes = Math.floor(totalSeconds / 60);
-            const seconds = totalSeconds % 60;
-            const timeString = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-            showPopupMessage(`Total time prayed: ${timeString}`);
-            timerProgress = 0;
-            totalSeconds = 0;
-            timerDisplay.textContent = '0:00';
-            progressFill.style.width = '0%';
-            startBtn.disabled = false;
-            startBtn.setAttribute('aria-disabled', 'false');
-            stopBtn.disabled = true;
-            stopBtn.setAttribute('aria-disabled', 'true');
-            startBtn.innerHTML = '<i class="fas fa-play mr-2"></i> Start Prayer';
-        }
-
-        // Scroll-to-top
-        function handleScroll() {
-            const scrollBtn = document.getElementById('scroll-to-top');
-            if (!scrollBtn) return;
-            if (window.scrollY > 300) {
-                scrollBtn.classList.add('visible');
-            } else {
-                scrollBtn.classList.remove('visible');
-            }
-        }
-
-        // Initialize everything
-        document.addEventListener('DOMContentLoaded', () => {
-            // Load theme
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                const { primary, secondary } = JSON.parse(savedTheme);
-                setTheme(primary, secondary);
-            } else {
-                setTheme('#2563eb', '#7dd3fc');
-            }
-
-            // Load dark mode
-            if (localStorage.getItem('darkMode') === 'true') {
-                document.body.classList.add('dark-mode');
-                const toggleBtn = document.getElementById('dark-mode-toggle');
-                if (toggleBtn) {
-                    toggleBtn.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
-                    toggleBtn.setAttribute('aria-pressed', 'true');
-                }
-            }
-
-            // Setup dark mode toggle
-            const darkToggle = document.getElementById('dark-mode-toggle');
-            if (darkToggle) {
-                darkToggle.addEventListener('click', toggleDarkMode);
-                darkToggle.setAttribute('aria-pressed', document.body.classList.contains('dark-mode'));
-            }
-
-            // Setup theme switchers
-            const themeButtons = document.querySelectorAll('.theme-btn');
-            themeButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const primary = btn.dataset.primary;
-                    const secondary = btn.dataset.secondary;
-                    setTheme(primary, secondary);
-                });
-            });
-
-            // Setup prayer timer
-            const startTimer = document.getElementById('start-timer');
-            const stopTimer = document.getElementById('stop-timer');
-            if (startTimer && stopTimer) {
-                startTimer.addEventListener('click', startPrayerTimer);
-                stopTimer.addEventListener('click', stopPrayerTimer);
-                startTimer.setAttribute('aria-disabled', 'false');
-                stopTimer.setAttribute('aria-disabled', 'true');
-            }
-
-            // Setup scroll-to-top
-            const scrollBtn = document.getElementById('scroll-to-top');
-            if (scrollBtn) {
-                scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-                window.addEventListener('scroll', handleScroll);
-            }
-
-            // Verse carousel setup
-            const verseContainer = document.querySelector('.verse-container');
-            if (verseContainer) {
-                // Duplicate verses to create seamless loop
-                const verses = verseContainer.querySelectorAll('.verse-item');
-                verses.forEach(verse => {
-                    const clone = verse.cloneNode(true);
-                    verseContainer.appendChild(clone);
-                });
-            }
-
-            // Cleanup
-            window.addEventListener('unload', () => {
-                if (startTimer) startTimer.removeEventListener('click', startPrayerTimer);
-                if (stopTimer) stopTimer.removeEventListener('click', stopPrayerTimer);
-                if (darkToggle) darkToggle.removeEventListener('click', toggleDarkMode);
-                if (scrollBtn) {
-                    scrollBtn.removeEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-                    window.removeEventListener('scroll', handleScroll);
-                }
-                themeButtons.forEach(btn => {
-                    btn.removeEventListener('click', () => {});
-                });
-            });
-        });
-    </script>
-
-    <!-- Header Section -->
-    <header class="section-gradient text-white py-10 shadow-lg transition-colors">
-        <div class="container mx-auto px-6 text-center">
-            <h1 class="text-4xl md:text-5xl font-bold mb-3"><i class="fas fa-pray mr-2"></i> Spiritual Growth Through Prayer and Fasting</h1>
-            <p class="text-lg md:text-xl font-light">Deepen your faith through prayer and fasting.</p>
-            <div class="mt-4 flex justify-center items-center gap-2">
-                <button id="dark-mode-toggle" class="bg-white text-blue-600 font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-gray-200 transition-colors btn-hover" aria-label="Toggle dark mode">
-                    <i class="fas fa-moon mr-2"></i> Dark Mode
-                </button>
-                <div class="flex gap-2">
-                    <button class="theme-btn" data-primary="#2563eb" data-secondary="#7dd3fc" style="background: #2563eb;" aria-label="Blue theme"></button>
-                    <button class="theme-btn" data-primary="#16a34a" data-secondary="#86efac" style="background: #16a34a;" aria-label="Green theme"></button>
-                    <button class="theme-btn" data-primary="#d946ef" data-secondary="#f3d7fa" style="background: #d946ef;" aria-label="Purple theme"></button>
+            <div class="timer-card section">
+                <h2>Your Prayer & Fasting Timer</h2>
+                <p class="timer-status">Use this gentle timer to track focused time seeking Jesus — whether in prayer, Scripture, or while fasting. Let it remind you to stay present with the Lord who draws near.</p>
+                <div id="timer">00:00:00</div>
+                <div>
+                    <button class="timer-btn" id="startPauseBtn">Start</button>
+                    <button class="timer-btn pause" id="resetBtn">Reset</button>
                 </div>
             </div>
         </div>
-    </header>
+    </div>
 
-    <!-- Main Content Section -->
-    <main class="container mx-auto px-6 py-12">
-        <!-- Introduction Section -->
-        <section id="introduction" class="mb-16">
-            <h2 class="text-3xl font-bold text-blue-800 text-center mb-6 dark:text-blue-400">The Essence of Prayer and Fasting</h2>
-            <div class="bg-white p-8 rounded-xl shadow-lg leading-relaxed text-lg transition-colors glass-effect card-hover">
-                <p class="mb-4">
-                    Prayer and fasting are sacred practices that deepen our connection to God, fostering spiritual discipline and clarity. Prayer is a conversation with the divine, where we express gratitude, seek guidance, and find peace. Fasting complements prayer by focusing our hearts and minds, allowing us to surrender distractions and draw closer to God’s purpose.
-                </p>
-                <p>
-                    Together, these practices cultivate resilience, humility, and a stronger faith, helping us align our lives with God’s will, whether in times of joy or challenge.
-                </p>
-            </div>
-        </section>
-
-        <!-- Benefits Section -->
-        <section id="benefits" class="mb-16">
-            <h2 class="text-3xl font-bold text-blue-800 text-center mb-6 dark:text-blue-400">Benefits of Prayer and Fasting</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="bg-white p-8 rounded-xl shadow-lg transition-colors card-hover">
-                    <h3 class="text-2xl font-semibold text-blue-700 mb-3 dark:text-blue-300"><i class="fas fa-heart mr-2"></i> Spiritual Discipline</h3>
-                    <p class="text-lg leading-relaxed">
-                        Fasting and prayer build discipline, teaching us to prioritize spiritual growth over physical desires and strengthening our commitment to faith.
-                    </p>
-                </div>
-                <div class="bg-white p-8 rounded-xl shadow-lg transition-colors card-hover">
-                    <h3 class="text-2xl font-semibold text-blue-700 mb-3 dark:text-blue-300"><i class="fas fa-pray mr-2"></i> Deeper Connection</h3>
-                    <p class="text-lg leading-relaxed">
-                        Combining prayer with fasting intensifies our focus on God, fostering a profound sense of closeness and alignment with His will.
-                    </p>
-                </div>
-                <div class="bg-white p-8 rounded-xl shadow-lg transition-colors card-hover">
-                    <h3 class="text-2xl font-semibold text-blue-700 mb-3 dark:text-blue-300"><i class="fas fa-shield-alt mr-2"></i> Emotional Clarity</h3>
-                    <p class="text-lg leading-relaxed">
-                        Fasting clears mental clutter, while prayer provides emotional strength, helping us face challenges with renewed hope and perspective.
-                    </p>
-                </div>
-                <div class="bg-white p-8 rounded-xl shadow-lg transition-colors card-hover">
-                    <h3 class="text-2xl font-semibold text-blue-700 mb-3 dark:text-blue-300"><i class="fas fa-lightbulb mr-2"></i> Divine Guidance</h3>
-                    <p class="text-lg leading-relaxed">
-                        Through fasting and prayer, we seek God’s wisdom, gaining clarity to make decisions that reflect His purpose for our lives.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Prayer Timer Section -->
-        <section id="prayer-timer" class="mb-16">
-            <h2 class="text-3xl font-bold text-blue-800 text-center mb-6 dark:text-blue-400">Prayer Timer</h2>
-            <div class="bg-white p-8 rounded-xl shadow-lg max-w-md mx-auto text-center transition-colors glass-effect card-hover">
-                <div id="timer-display" class="text-4xl font-mono text-blue-600 mb-4 dark:text-blue-400" aria-live="polite">0:00</div>
-                <div class="progress-bar mb-4">
-                    <div id="progress-fill" class="progress-bar-fill" style="width: 0%"></div>
-                </div>
-                <button id="start-timer" class="bg-blue-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-blue-700 transition-colors mr-2 btn-hover" aria-label="Start prayer timer">
-                    <i class="fas fa-play mr-2"></i> Start Prayer
-                </button>
-                <button id="stop-timer" class="bg-gray-500 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-gray-600 transition-colors btn-hover" disabled aria-label="Stop prayer timer" aria-disabled="true">
-                    <i class="fas fa-stop mr-2"></i> Stop Prayer
-                </button>
-            </div>
-        </section>
-
-        <!-- Fasting and Prayer Section -->
-        <section id="fasting-prayer" class="mb-16">
-            <h2 class="text-3xl font-bold text-blue-800 text-center mb-6 dark:text-blue-400">Fasting and Prayer Practices</h2>
-            <div class="bg-white p-8 rounded-xl shadow-lg max-w-2xl mx-auto transition-colors glass-effect card-hover">
-                <div class="mb-6 text-center text-sm text-gray-500 dark:text-gray-400">
-                    Your User ID is: <span id="user-id" class="font-mono text-gray-700 dark:text-gray-300">Loading...</span>
-                </div>
-                <div class="space-y-4">
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-700 mb-2 dark:text-gray-200"><i class="fas fa-pray mr-2"></i> Types of Fasts</h3>
-                        <p class="text-lg leading-relaxed">
-                            Fasting can take many forms, such as a complete fast (abstaining from all food and drink for a set period), a partial fast (limiting certain foods), or a Daniel fast (eating only fruits, vegetables, and water). Choose a fast that aligns with your health and spiritual goals.
-                        </p>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-700 mb-2 dark:text-gray-200"><i class="fas fa-clock mr-2"></i> Fasting Duration</h3>
-                        <p class="text-lg leading-relaxed">
-                            Fasts can last from a single meal to several days. Common durations include 24-hour fasts, sunrise-to-sunset fasts, or extended fasts for specific spiritual purposes. Always consult a healthcare professional before extended fasting.
-                        </p>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-700 mb-2 dark:text-gray-200"><i class="fas fa-book mr-2"></i> Combining with Prayer</h3>
-                        <p class="text-lg leading-relaxed">
-                            Fasting is most effective when paired with intentional prayer. Set aside specific times to pray, meditate on scripture, and seek God’s guidance. Use the prayer timer above to structure your prayer sessions during your fast.
-                        </p>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-700 mb-2 dark:text-gray-200"><i class="fas fa-heart mr-2"></i> Spiritual Benefits</h3>
-                        <p class="text-lg leading-relaxed">
-                            Fasting and prayer help us humble ourselves before God, increase our spiritual sensitivity, and open our hearts to divine revelation. These practices can lead to breakthroughs in personal growth, relationships, and faith.
-                        </p>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-700 mb-2 dark:text-gray-200"><i class="fas fa-bible mr-2"></i> Bible Verses on Fasting and Prayer</h3>
-                        <div class="verse-carousel">
-                            <div class="verse-container">
-                                <div class="verse-item">"But when you fast, put oil on your head and wash your face, so that it will not be obvious to others that you are fasting, but only to your Father, who is unseen." – Matthew 6:17-18</div>
-                                <div class="verse-item">"Is not this the kind of fasting I have chosen: to loose the chains of injustice and untie the cords of the yoke?" – Isaiah 58:6</div>
-                                <div class="verse-item">"So we fasted and petitioned our God about this, and he answered our prayer." – Ezra 8:23</div>
-                                <div class="verse-item">"Devote yourselves to prayer, being watchful and thankful." – Colossians 4:2</div>
-                                <div class="verse-item">"And when you pray, do not keep on babbling like pagans, for your Father knows what you need before you ask him." – Matthew 6:7-8</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Scroll to Top Button -->
-    <button id="scroll-to-top" class="scroll-to-top bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors btn-hover" aria-label="Scroll to top">
-        <i class="fas fa-arrow-up"></i>
-    </button>
-
-    <!-- Message Container -->
-    <div id="message-box" class="message-container" role="alert"></div>
-
-    <!-- Popup Message Container -->
-    <div id="popup-message" class="popup-message" role="alert"></div>
     <footer>
-        &copy; 2026 GPS.All rights are reserved<br>
-        <p>Designed by Alhan</p>
+        “Draw near to God, and He will draw near to you.” — James 4:8<br>May your heart rest in Christ alone •GPS 2026 ✝️
     </footer>
+
+    <script>
+        let startTime = null;
+        let elapsed = 0;
+        let timerInterval = null;
+        const timerDisplay = document.getElementById('timer');
+        const startPauseBtn = document.getElementById('startPauseBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        function formatTime(ms) {
+            const totalSeconds = Math.floor(ms / 1000);
+            const hours   = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
+            const minutes = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
+            const seconds = (totalSeconds % 60).toString().padStart(2, '0');
+            return `${hours}:${minutes}:${seconds}`;
+        }
+
+        function updateDisplay() {
+            if (!startTime) return;
+            const now = Date.now();
+            const currentElapsed = elapsed + (now - startTime);
+            timerDisplay.textContent = formatTime(currentElapsed);
+        }
+
+        function startTimer() {
+            if (!timerInterval) {
+                startTime = Date.now();
+                timerInterval = setInterval(updateDisplay, 93);
+                startPauseBtn.textContent = 'Pause';
+            }
+        }
+
+        function pauseTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                elapsed += Date.now() - startTime;
+                startPauseBtn.textContent = 'Resume';
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            elapsed = 0;
+            startTime = null;
+            timerDisplay.textContent = '00:00:00';
+            startPauseBtn.textContent = 'Start';
+        }
+
+        startPauseBtn.addEventListener('click', () => {
+            if (timerInterval) {
+                pauseTimer();
+            } else {
+                startTimer();
+            }
+        });
+
+        resetBtn.addEventListener('click', resetTimer);
+    </script>
+
 </body>
 </html>
-
