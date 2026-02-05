@@ -19,6 +19,7 @@
             display: flex;
             flex-direction: column;
             position: relative;
+            padding-top:120px;
         }
         #particles-js {
             position: fixed;
@@ -279,21 +280,19 @@
     </footer>
 
     <script>
-        // Supabase Credentials (replace with your real keys!)
-        const _supabaseUrl = 'https://your-project-ref.supabase.co';  // ← CHANGE THIS
-        const _supabaseKey = 'your-anon-or-service-key';             // ← CHANGE THIS
-        const supabase = supabase.createClient(_supabaseUrl, _supabaseKey);
+        */ (async () => { // Replace these with your project values const SUPABASE_URL = 'https://cgcrhcxjpbkhpwcysgod.supabase.co'; const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNnY3JoY3hqcGJraHB3Y3lzZ29kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3MTgwNDAsImV4cCI6MjA4NDI5NDA0MH0.LSknGSb7-i6OVAQcYlDt0G4tWpPiNFX-RevL94_pQFg';
 
-        document.getElementById('registration-form').addEventListener('submit', async function(event) {
-            event.preventDefault();
+// Initialize client const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
+const form = document.getElementById('registration-form'); const msgBox = document.getElementById('message-box');
 
-            if (password !== confirmPassword) {
-                showMessage("Passwords do not match. Please try again.");
-                return;
-            }
+function showMessage(text, ms = 4000) { msgBox.textContent = text; msgBox.style.display = 'block'; setTimeout(() => { msgBox.style.display = 'none'; }, ms); }
+
+// Helper to get form values function getFormValues() { return { full_name: document.getElementById('full-name').value.trim(), phone: document.getElementById('phone').value.trim(), region: document.getElementById('region').value.trim(), email: document.getElementById('email') ? document.getElementById('email').value.trim() : null, password: document.getElementById('password').value, confirmPassword: document.getElementById('confirm-password').value }; }
+
+form.addEventListener('submit', async (e) => { e.preventDefault();
+
+const { full_name, phone, region, email, password, confirmPassword } = getFormValues
 
             const formData = {
                 full_name: document.getElementById('full-name').value.trim(),
@@ -345,4 +344,5 @@
         });
     </script>
 </body>
+
 </html>
