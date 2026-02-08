@@ -16,91 +16,6 @@
       padding-top: 200px;
     }
 
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: rgba(44, 62, 80, 0.92);
-      backdrop-filter: blur(10px);
-      color: white;
-      padding: 1.2rem 1.5rem;
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.6rem;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
-    }
-
-    .gps-center {
-      width: 90px;
-      height: 90px;
-      position: relative;
-      animation: spin 14s linear infinite;
-    }
-    .gps-center::before,
-    .gps-center::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-    }
-    .gps-center::before {
-      border: 5px solid transparent;
-      border-top-color: #3498db;
-      border-right-color: #3498db;
-      animation: spin 9s linear infinite;
-      box-shadow: 0 0 25px rgba(52,152,219,0.8);
-    }
-    .gps-center::after {
-      border: 4px dashed #ffb74d;
-      inset: 10px;
-      animation: spin 16s linear infinite reverse;
-    }
-    .gps-center span {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-      font-weight: 900;
-      color: #fff;
-      text-shadow: 0 0 12px #3498db, 0 0 25px #3498db;
-    }
-
-    .header-logo-text {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.8rem, 5vw, 2.5rem);
-      font-weight: 700;
-      color: #3498db;
-      text-shadow: 0 0 10px rgba(52,152,219,0.5);
-      letter-spacing: 1.5px;
-      transition: all 0.4s;
-    }
-    .header-logo-text:hover {
-      color: #ffb74d;
-      transform: scale(1.05);
-    }
-      .gps-center span {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Open Sans', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: white;
-            text-shadow: 0 0 10px #3498db, 0 0 20px #3498db;
-            z-index: 2;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to   { transform: rotate(360deg); }
-        }
 
     /* Hero Section */
     .hero {
@@ -336,5 +251,6 @@
 </body>
 
 </html>
+
 
 
